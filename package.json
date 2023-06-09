@@ -3,18 +3,44 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/dayjs": "^2.16.0",
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.132",
+    "@mui/material": "^5.13.3",
+    "@mui/styles": "^5.13.2",
+    "@mui/x-data-grid": "^6.6.0",
+    "@mui/x-date-pickers": "^6.6.0",
+    "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@trendyol-js/react-carousel": "^3.0.2",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.34",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
+    "dayjs": "^1.11.8",
+    "flag-icons": "^6.7.0",
+    "formik": "^2.4.1",
+    "i18next": "^22.5.0",
+    "material-ui-flags": "^1.2.4",
+    "pusher-js": "^8.0.2",
     "react": "^18.2.0",
+    "react-animated-slider": "^2.0.0",
     "react-dom": "^18.2.0",
+    "react-flagkit": "^2.0.4",
+    "react-i18next": "^12.3.1",
+    "react-leaf-carousel": "^3.0.0",
+    "react-redux": "^8.0.7",
+    "react-router-dom": "^6.11.2",
     "react-scripts": "5.0.1",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,5 +65,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.1.25",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-slick": "^0.23.10"
   }
 }
