@@ -1,24 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Footer } from './Components/Footer/Footer';
+import useTheme from "./CustomHooks/useTheme";
+import { ResponsiveAppBar } from './Components/AppBar/Appbar';
+import { ContainerComponent } from './Components/Container/ContainerComponent';
+import AuthGuard from 'Components/AuthGuard/AuthGuard';
 
+import AdDetails from 'pages/Advertises/AdDetails';
+import Signin from 'pages/signin';
 function App() {
+  const { mode, handleThemeChange } = useTheme();
+ 
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <ResponsiveAppBar mode={mode} handleThemeChange={handleThemeChange} />
+      <ContainerComponent mode={mode} handleThemeChange={handleThemeChange} />
+      <Footer mode={mode} handleThemeChange={handleThemeChange} />
+      
+
     </div>
   );
 }
