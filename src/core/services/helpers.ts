@@ -46,9 +46,6 @@ export const getNotificationMessage = (notification: any): string => {
   if (notification.type === "App\\Notifications\\RoleChangedNotification") {
     return "Your role on AnyPet has been changed to " + notification?.data?.role;
   }
-  if (notification.type === "App\\Notifications\\MessageNotification") {
-    return "You have a new message from " + notification?.data?.sender;
-  }
   if (notification.type === "App\\Notifications\\ReservationNotification") {
     return "You get an reservation request for the advertisement  " + notification?.data?.ad + " from user"+ notification?.data?.sender?.firstname     ;
   }

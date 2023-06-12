@@ -13,6 +13,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import SignpostIcon from '@mui/icons-material/Signpost';
 
 import { CustomGlobalGrid } from 'Components/Categories/Categorie.style';
+import CustomLink from 'Components/CustomLink/CustomLink';
+import { PATHS } from 'routes/Path';
 
 
 const StateListCollapseComponent = () => {
@@ -40,7 +42,9 @@ const StateListCollapseComponent = () => {
                                 <ListItemIcon>
                                     <LocationOnIcon />
                                 </ListItemIcon>
+                                <CustomLink to={"/ads/state/"+ state.id }>
                                 <ListItemText primary={state.name} />
+                                </CustomLink>
                             </ListItemButton>
                         </List>
                     </Collapse>

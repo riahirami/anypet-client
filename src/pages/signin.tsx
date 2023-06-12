@@ -29,6 +29,9 @@ import AlertComponent from "../Components/Alert/Alert";
 import { ServerResponse } from "../core/models/authState.model";
 import { getCurrentUser } from "core/utils/functionHelpers";
 import { useSelector, useDispatch } from "react-redux";
+
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+
 const initialState = {
   lastname: "",
   firstname: "",
@@ -53,7 +56,7 @@ const Signin = () => {
 
   const [
     loginUser,
-    {
+    {isSuccess,
       isError: isLoginError,
       error: loginError,
       isLoading: isLoginLoading,
@@ -64,12 +67,17 @@ const Signin = () => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   }
 
+
+  const [showAlert, setShowAlert] = useState(false);
+
   const handleLogin = async () => {
     if (!(email && password)) {
       setShowModal(true);
     }
 
     const loginData: any = await loginUser({ email, password });
+    setShowAlert(false)
+
     if (!!loginData?.data) {
       dispatch(
         setUser({ token: loginData.data.token, user: loginData.data.user })
@@ -81,9 +89,12 @@ const Signin = () => {
           token: loginData?.data.token,
         })
       );
-  
+
       navigate('/home');
     }
+    else
+  
+      setShowAlert(true)
   };
 
   const [
@@ -106,9 +117,6 @@ const Signin = () => {
     }
   };
 
-  if (isLoginError)
-    return <AlertComponent title={loginError} severity="error" />;
-
   if (showModal)
     return (
       <CustomModal title="Forgot password" description={descriptionModal} />
@@ -117,7 +125,22 @@ const Signin = () => {
 
   return (
     <ThemeProvider theme={theme}>
+
+{showAlert && <AlertComponent title={"Error login ! Check your email & your password"} severity={"error"} />}
+
       <Container component="main" maxWidth="xs">
+        <Grid container >
+
+          <Grid item>
+            <img
+              src={process.env.PUBLIC_URL + "/illustrations/5540711.jpg"}
+              alt="Man playing with a dog"
+              style={{ width: "100%", opacity: '0.7', position: "absolute", top: "250px", left: "0px", bottom: "0px" }}
+            />
+          </Grid>
+        </Grid>
+
+
         <CssBaseline />
         <Box
           sx={{
@@ -125,10 +148,16 @@ const Signin = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            background: "aliceblue",
+            position: "relative",
+            padding: "50px",
+            width: "501px",
+            border: "2px solid #048694"
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+           { isSuccess ?  <LockOpenIcon /> : <LockOutlinedIcon />}
+
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
@@ -193,7 +222,10 @@ const Signin = () => {
             </Button>
             <Grid item></Grid>
           </Box>
+
+
         </Box>
+
       </Container>
     </ThemeProvider>
   );

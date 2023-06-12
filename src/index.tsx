@@ -15,7 +15,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-      <AuthGuard element={ <App /> } />
+        <App />
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

@@ -10,16 +10,17 @@ import AdDetails from 'pages/Advertises/AdDetails';
 import Signin from 'pages/signin';
 function App() {
   const { mode, handleThemeChange } = useTheme();
- 
 
 
   return (
     <div className="App">
 
-      <ResponsiveAppBar mode={mode} handleThemeChange={handleThemeChange} />
-      <ContainerComponent mode={mode} handleThemeChange={handleThemeChange} />
-      <Footer mode={mode} handleThemeChange={handleThemeChange} />
-      
+      <AuthGuard>
+        <ResponsiveAppBar mode={mode} handleThemeChange={handleThemeChange} />
+        <ContainerComponent mode={mode} handleThemeChange={handleThemeChange} />
+        <Footer mode={mode} handleThemeChange={handleThemeChange} />
+      </AuthGuard>
+
 
     </div>
   );

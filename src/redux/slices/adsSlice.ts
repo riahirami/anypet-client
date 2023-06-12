@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { Ad,AdData } from "core/models/ad.model";
 
 const initialState = {
-  ad: [] as Ad[],
+  ad: {} as AdData,
 };
 
 export const adSlice = createSlice({

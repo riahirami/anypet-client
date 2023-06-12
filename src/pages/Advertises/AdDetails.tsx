@@ -202,6 +202,8 @@ const AdDetails: React.FC<Props> = ({ mode,
             fullWidth
             variant="standard"
             value={message}
+            multiline
+            minRows={2}
             onChange={handleChangeMessageField}
           />
         </DialogContent>
@@ -271,7 +273,7 @@ const AdDetails: React.FC<Props> = ({ mode,
 
         <Grid
           container
-          sx={{ m: "30px", p: "5px" }}
+          sx={{ mt: "30px", p: "5px" }}
           justifyContent={"space-between"}
         >
           <Grid item>

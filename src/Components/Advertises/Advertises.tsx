@@ -51,7 +51,7 @@ export const Advertises: React.FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [parameters, setParameters] = useState<parametersListing>({
     page: 1,
-    perPage: "8",
+    perPage: "12",
     orderBy: undefined,
     orderDirection: undefined,
     keyword: undefined,
@@ -114,13 +114,13 @@ export const Advertises: React.FC<Props> = ({
   };
 
 
-  
-  return (
-    <CustomGlobalGrid>
 
-      <Grid container justifyContent="flex-start" alignItems="center">
-        <Grid item xs={12} sm={3} md={3} lg={3}>
-          <Box display="flex" borderRadius="3px">
+  return (
+    <CustomGlobalGrid   >
+
+      <Grid container justifyContent="space-between" alignItems="center">
+        <Grid item xs={12} sm={3} md={4} lg={3}>
+          <Box display="flex" borderRadius="3px" style={{border:"1px solid grey"}}>
             <InputBase
               sx={{ ml: 2, flex: 1 }}
               placeholder="Search"
@@ -135,7 +135,7 @@ export const Advertises: React.FC<Props> = ({
             </IconButton>
           </Box>
         </Grid>
-
+{/* 
         <Grid item xs={12} sm={4} md={4}>
           <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -150,9 +150,9 @@ export const Advertises: React.FC<Props> = ({
               Reset
             </Button>
           </Box>
-        </Grid>
+        </Grid> */}
 
-        <Grid item xs={4} sm={4} md={4} style={{ margin: "auto", display: "flex", justifyContent: "flex-end" }} >
+        <Grid item xs={4} sm={4} md={4} style={{ display: "flex", justifyContent: "flex-end" }} >
           <PerPageSelect
             defaultValue={parameters.perPage}
             value={parameters.perPage}

@@ -37,4 +37,7 @@ export const PATHS = {
     SHOWPARTNER : '/partner/:id',
 
 
+    ADSBYSTATE : '/ads/state/:id',
+
+
 }

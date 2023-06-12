@@ -7,7 +7,7 @@ interface CustomLinkProps extends LinkProps {
 
 const CustomLink: React.FC<CustomLinkProps> = ({ to, children, ...rest }) => {
   return (
-    <Link to={to} {...rest} style={{  textDecoration: "none" 
+    <Link to={to} {...rest} style={{  textDecoration: "none"
   }}>
       {children}
     </Link>

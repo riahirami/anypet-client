@@ -12,7 +12,7 @@ import FlagUSA from '../Flags/FlagUSA';
 import PetsIcon from '@mui/icons-material/Pets';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useSelector, useDispatch } from "react-redux";
-import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button, Avatar, Tooltip, Grid } from '@mui/material';
+import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button, Avatar, Tooltip, Grid, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Notifications from 'Components/Notifications/Notifications';
 import ConversationsComponent from 'Components/Conversations/Conversations';
@@ -35,7 +35,7 @@ export const ResponsiveAppBar: React.FC<Props> = ({
   ];
 
   const authUser = useSelector((state: RootState) => state.auth);
-  const favorite = useSelector((state: RootState) => state.favorite);
+  const listFavorites = useSelector((state: any) => state.favorite.favoriteList);
 
   const dispatch = useDispatch();
 
@@ -72,6 +72,8 @@ export const ResponsiveAppBar: React.FC<Props> = ({
     if (token)
    { await logoutUser({token});}
   }
+
+
 
   return (
     <AppBar position="fixed" style={{ backgroundColor: themes[mode].topbar.backgroundColor }} >
@@ -180,7 +182,7 @@ export const ResponsiveAppBar: React.FC<Props> = ({
             <CustomLink to="/myfavorites">
               <IconButton>
                 <FavoriteIcon color="error" />
-                <Badge>{favorite?.favoriteList?.length > 0 ? favorite?.favoriteList?.length : 0}</Badge>
+                <Badge>{(listFavorites.data && listFavorites.data.length) > 0 ? listFavorites.data?.length : 0}</Badge>
               </IconButton>
             </CustomLink>
 

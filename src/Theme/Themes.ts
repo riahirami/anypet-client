@@ -2,7 +2,8 @@ export const themes = {
   light: {
     topbar: {
       backgroundColor: "#5fa8d3",
-      color: "#607489",
+      color: "white",
+      textDecoration: "none",
 
     },
     MenuItem: {
@@ -13,35 +14,59 @@ export const themes = {
     },
     container: {
       backgroundColor: "#ffffff",
-      color: "#44596e",
+      color: "white",
+      textDecoration: "none",
+
+    },
+    sideBar: {
+      backgroundColor: "#ffffff",
+      color: "black",
+      textDecoration: "none",
+
     },
     AdsCard: {
       backgroundColor: "#ffffff",
-      color: "#44596e",
+      color: "white",
+    
     },
     comment: {
       backgroundColor: "#ffffff",
-      color: "#44596e",
+      color: "white",
     },
     footer: {
       backgroundColor: "#5fa8d3",
       color: "#44596e",
     },
-
+    link: {
+      textDecoration: "none",
+      color:"black"
+    }
 
   },
   dark: {
     topbar: {
       backgroundColor: "#2C3333",
-      color: "#ffffff",
+      color: "black",
+      textDecoration: "none",
+
     },
     container: {
       backgroundColor: "#393E46",
-      color: "#ffffff",
+      color: "white",
+      textDecoration: "none",
+
+    },
+    sideBar: {
+      backgroundColor: "#112b51",
+      color: "white",
+      textDecoration: "none",
+     
+
     },
     AdsCard: {
-      backgroundColor: "#222831",
-      color: "#44596e",
+      backgroundColor: "#112b51",
+      color: "#ffffff",
+
     },
     comment: {
       backgroundColor: "#222831",
@@ -51,6 +76,9 @@ export const themes = {
       backgroundColor: "#2C3333",
       color: "#000000",
     },
-
+    link: {
+      textDecoration: "none",
+      color:"white"
+    }
   },
 };

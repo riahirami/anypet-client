@@ -17,11 +17,13 @@ import CustomLink from 'Components/CustomLink/CustomLink';
 import { useGetAllCategoriesQuery } from 'redux/api/categoryApi';
 import { setCategories } from 'redux/slices/categorySlice';
 import { Category } from 'core/models/category.model';
+import AlertComponent from 'Components/Alert/Alert';
+import TextSkeleton from 'Components/Skeleton/TextSkeleton';
 
 export const CategoryListCollapseComponent = () => {
     const [open, setOpen] = useState(true);
 
-    const { data: dataAllCategory, isSuccess } = useGetAllCategoriesQuery(100);
+    const { data: dataAllCategory, isSuccess,isLoading } = useGetAllCategoriesQuery(100);
 
     const categories = useSelector((state: RootState) => state.category);
 
@@ -31,13 +33,17 @@ export const CategoryListCollapseComponent = () => {
         dispatch(setCategories(dataAllCategory));
     }
 
-    console.log({categories});
 
     const handleClick = () => {
         setOpen(!open);
     };
 
 
+    if (isLoading)
+    return (
+        <TextSkeleton />
+    )
+    if (isSuccess)
     return (
         <CustomGlobalGrid>
 
@@ -49,7 +55,7 @@ export const CategoryListCollapseComponent = () => {
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             {isSuccess &&
-                categories?.categories?.data.map((category:Category) => (
+                categories?.categories?.data?.map((category:Category) => (
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             <CustomLink to={"/advertise/category/" + category.id}>
@@ -66,5 +72,10 @@ export const CategoryListCollapseComponent = () => {
             }
         </CustomGlobalGrid>
     )
+
+    return (
+        <AlertComponent severity='error' title={"no category found"} />
+    )
+
 }
 

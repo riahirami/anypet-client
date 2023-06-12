@@ -101,6 +101,7 @@ export const Comment: React.FC <Props>= ({
     setComment("");
   };
 
+  console.log({data})
   return (
     <>
       {(isLoading || isFetching) && <TextSkeleton />}
@@ -204,7 +205,7 @@ export const Comment: React.FC <Props>= ({
                         <StyledCommentDivider variant="fullWidth" />
                       </Grid>
 
-                      {currentUser.user.id == reply.user_id && (
+                      {(currentUser.user.id == reply.user_id  )&& (
                         <IconButton
                           color="error"
                           sx={{

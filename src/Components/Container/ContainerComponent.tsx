@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import { Props } from '../AppBar/Appbar.props';
-import { themes } from '../../Theme/Themes';
+import { themes} from '../../Theme/Themes';
 import Categories from "Components/Categories/Categories";
 import AllNotifications from "pages/AllNotifications";
 import Signin from "pages/signin";
@@ -25,6 +25,7 @@ import ShowPartner from "pages/Partner/ShowPartner/ShowPartner";
 import Slider from "react-slick";
 import StateListCollapseComponent from "Components/ListMenuCollapse/StateListCollapseComponent";
 import { CategoryListCollapseComponent } from "Components/ListMenuCollapse/CategoryListCollapseComponent";
+import AdsByState from "pages/Advertises/AdsByState";
 
 
 export const ContainerComponent: React.FC<Props> = ({
@@ -40,17 +41,18 @@ export const ContainerComponent: React.FC<Props> = ({
             <Grid item md={12}>
                 <Routes>
                     <Route >
+                        <Route path="/ads/state/:id" element={<AdsByState mode={mode} handleThemeChange={handleThemeChange} />} />
+
                         <Route path="/signin" element={<Signin />} />
                         <Route path="/home" element={
-                            <><Grid container> <Grid item md={2}>
-
+                            <><Grid container> 
+                            <Grid item md={2} style={{ minHeight: "100vh", height: "100%", backgroundColor: themes[mode].sideBar.backgroundColor }}>
                                 {/* <Categories mode={mode} handleThemeChange={handleThemeChange} /> */}
                                 <CategoryListCollapseComponent />
                                 <StateListCollapseComponent />
-                                
+
                             </Grid>
                                 <Grid item md={10}>
-
                                     <Advertises mode={mode} handleThemeChange={handleThemeChange} />
                                 </Grid>
                             </Grid>
