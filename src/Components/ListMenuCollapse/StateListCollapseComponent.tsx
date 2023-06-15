@@ -16,16 +16,21 @@ import { CustomGlobalGrid } from 'Components/Categories/Categorie.style';
 import CustomLink from 'Components/CustomLink/CustomLink';
 import { PATHS } from 'routes/Path';
 
+import { Props } from '../AppBar/Appbar.props';
+import { themes } from '../../Theme/Themes';
 
-const StateListCollapseComponent = () => {
-    const [open, setOpen] = React.useState(true);
+const StateListCollapseComponent: React.FC<Props> = ({
+    mode,
+    handleThemeChange,
+}) => {
+    const [open, setOpen] = React.useState(false);
 
     const handleClick = () => {
         setOpen(!open);
     };
     return (
-                <Grid>
-        
+        <Grid >
+
 
             <ListItemButton onClick={handleClick}>
                 <ListItemIcon>
@@ -38,14 +43,19 @@ const StateListCollapseComponent = () => {
                 StateTunisia.map((state) => (
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 4 }}>
-                                <ListItemIcon>
-                                    <LocationOnIcon />
-                                </ListItemIcon>
-                                <CustomLink to={"/ads/state/"+ state.id }>
-                                <ListItemText primary={state.name} />
-                                </CustomLink>
-                            </ListItemButton>
+                            <CustomLink to={"/ads/state/" + state.id}>
+                                <ListItemButton sx={{
+                                    textDecoration: 'none', color: themes[mode].menuItem.link.color,
+                                    '&:hover': {
+                                        backgroundColor: themes[mode].menuItem.hover.backgroundColor,
+                                    }
+                                }}>
+                                    <ListItemIcon  >
+                                        <LocationOnIcon  />
+                                    </ListItemIcon>
+                                    <ListItemText primary={state.name} />
+                                </ListItemButton>
+                            </CustomLink>
                         </List>
                     </Collapse>
                 ))

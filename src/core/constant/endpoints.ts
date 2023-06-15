@@ -35,6 +35,7 @@ export const endpoints = {
     USERLISTUNREADNOTIFICATIONS: "users/notifications/unread/",
     MARKAllASREADNOTIFICATIONS: "users/notifications/readall",
     MESSAGES: "users/message/",
+    CONTACTUS: "users/contact-us/",
     CONVERSATION: "users/conversation/",
     CONVERSATIONSLIST: "users/conversations/list",
 

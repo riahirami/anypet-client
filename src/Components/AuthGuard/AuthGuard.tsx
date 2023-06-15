@@ -1,5 +1,5 @@
-import Signin from "pages/signin";
-import Signup from "pages/signup";
+import Signin from "pages/Signin/signin";
+import Signup from "pages/Signup/signup";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "redux/hooks";

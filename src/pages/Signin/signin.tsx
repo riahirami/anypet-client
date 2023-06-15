@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   useLoginUserMutation,
   useForgotPasswordMutation,
-} from "../redux/api/authApi";
+} from "../../redux/api/authApi";
 import { Link as RouterLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../redux/slices/authSlice";
+import { setUser } from "../../redux/slices/authSlice";
 import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/system";
-import Spinner from "../Components/Spinner/spinner";
+import Spinner from "../../Components/Spinner/spinner";
 
 import {
   Avatar,
@@ -24,13 +24,15 @@ import {
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import CustomModal from "../Components/Modal/CustomModal";
-import AlertComponent from "../Components/Alert/Alert";
-import { ServerResponse } from "../core/models/authState.model";
+import CustomModal from "../../Components/Modal/CustomModal";
+import AlertComponent from "../../Components/Alert/Alert";
+import { ServerResponse } from "../../core/models/authState.model";
 import { getCurrentUser } from "core/utils/functionHelpers";
 import { useSelector, useDispatch } from "react-redux";
 
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { CustomAvatar, CustomButton, CustomImg, CustomSignInBox } from "./Signin.style";
+import { message } from "core/constant/message";
 
 const initialState = {
   lastname: "",
@@ -56,7 +58,7 @@ const Signin = () => {
 
   const [
     loginUser,
-    {isSuccess,
+    { isSuccess,
       isError: isLoginError,
       error: loginError,
       isLoading: isLoginLoading,
@@ -93,7 +95,7 @@ const Signin = () => {
       navigate('/home');
     }
     else
-  
+
       setShowAlert(true)
   };
 
@@ -126,39 +128,27 @@ const Signin = () => {
   return (
     <ThemeProvider theme={theme}>
 
-{showAlert && <AlertComponent title={"Error login ! Check your email & your password"} severity={"error"} />}
+      {showAlert && <AlertComponent title={message.ERRORLOGIN} severity={"error"} />}
 
       <Container component="main" maxWidth="xs">
         <Grid container >
 
           <Grid item>
-            <img
+            <CustomImg
               src={process.env.PUBLIC_URL + "/illustrations/5540711.jpg"}
               alt="Man playing with a dog"
-              style={{ width: "100%", opacity: '0.7', position: "absolute", top: "250px", left: "0px", bottom: "0px" }}
-            />
+              
+            ></CustomImg>
           </Grid>
         </Grid>
 
 
         <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            background: "aliceblue",
-            position: "relative",
-            padding: "50px",
-            width: "501px",
-            border: "2px solid #048694"
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-           { isSuccess ?  <LockOpenIcon /> : <LockOutlinedIcon />}
+        <CustomSignInBox>
+          <CustomAvatar >
+            {isSuccess ? <LockOpenIcon color="info" /> : <LockOutlinedIcon color="info" />}
 
-          </Avatar>
+          </CustomAvatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -197,34 +187,32 @@ const Signin = () => {
                 </Button>
               </Grid>
             </Grid>
-            <Button
+            <CustomButton
               type="button"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
               onClick={handleLogin}
               disabled={isLoginLoading}
             >
               Sign In
-            </Button>
+            </CustomButton>
 
             <Divider>
               <Chip label="Don't have an account ?" />
             </Divider>
-            <Button
+            <CustomButton
               href="/signup"
               type="button"
               fullWidth
-              sx={{ mt: 3, mb: 2 }}
               variant="contained"
             >
               {"Sign Up"}
-            </Button>
+            </CustomButton>
             <Grid item></Grid>
           </Box>
 
 
-        </Box>
+        </CustomSignInBox>
 
       </Container>
     </ThemeProvider>

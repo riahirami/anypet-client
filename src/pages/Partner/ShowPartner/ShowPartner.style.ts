@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import {  Grid } from "@mui/material";
 
 export const StyledGridLogo = styled(Grid)({
     display: "flex",
@@ -29,7 +29,9 @@ export const StyledGridMedia = styled(Grid)({
 
 export const StyledGlobalGrid = styled(Grid)({
     paddingTop: "100px",
-
+//  width: "100vw",
+ minWidth:"670px",  
+ margin:"auto"
 });
 
 export const StyledGridInfoItem = styled(Grid)({

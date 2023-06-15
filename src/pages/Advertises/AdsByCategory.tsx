@@ -26,6 +26,12 @@ const AdsByCategory = ({ mode,
     return (
       <CardSkeleton />)
 
+  if (isSuccess && adData?.data?.length < 1)
+    return (
+      <CustomGlobalGrid>
+        <Typography>no advertises available for this category</Typography>
+      </CustomGlobalGrid>
+    )
   if (isSuccess && adData?.data?.length > 0)
     return (
       <Container>
@@ -33,7 +39,7 @@ const AdsByCategory = ({ mode,
         <Grid container >
           {
             adData?.data?.map((item: Ad) => (
-              <Grid item key={item.id} xs={12} sm={4} md={4} lg={3}>
+              <Grid item key={item.id} xs={6} sm={4} md={4} lg={3}>
                 {<AdCard adData={item} handleThemeChange={handleThemeChange} mode={mode} />}
               </Grid>
             ))}

@@ -10,24 +10,24 @@ export const  Footer: React.FC<Props>= ({
   return (
     <Box
       sx={{
-        width: "100%",
+        minWidth:"692px",
         height: "auto",
         backgroundColor: "aquamarine",
         paddingTop: "1rem",
-        paddingBottom: "1rem",
-        marginTop: 'auto', // Pushes the footer to the bottom
+        // paddingBottom: "1rem",
+        marginTop: 'auto', // Pushes the footer to the bottom instead of auto
 
       }}
       style={{ backgroundColor: themes[mode].footer.backgroundColor}} 
     >
-      <Container maxWidth="lg">
+      <Container >
         <Grid container direction="column" alignItems="center">
-          <Grid item xs={12}>
+          <Grid item >
             <Typography color="black" variant="h5">
               AnyPet App
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item >
             <Typography color="textSecondary" variant="subtitle1">
               {`${new Date().getFullYear()} | Anypli copyrights`}
             </Typography>

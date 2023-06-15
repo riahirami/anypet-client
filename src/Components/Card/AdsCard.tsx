@@ -12,6 +12,7 @@ import {
   Menu,
   MenuItem,
   Grid,
+  Box,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -31,6 +32,7 @@ import { themes } from '../../Theme/Themes';
 import { RootState } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory } from "redux/slices/categorySlice";
+
 
 
 function AdCard({ adData, user, mode,
@@ -110,7 +112,7 @@ function AdCard({ adData, user, mode,
   useEffect(() => {
     if (adData)
       checkIsFavorit(adData.id);
-      
+
   }, []);
 
 
@@ -122,12 +124,12 @@ function AdCard({ adData, user, mode,
   const checkIsFavorit = async (id: any) => {
     if (listFavorites) {
       const isFavorite = listFavorites.data?.find((fav: any) => fav.ad_id === id);
-    if(isFavorite)
-      setIsFavorite(true);
-      else 
-      setIsFavorite(false);
+      if (isFavorite)
+        setIsFavorite(true);
+      else
+        setIsFavorite(false);
     }
-   
+
 
   }
 
@@ -137,14 +139,21 @@ function AdCard({ adData, user, mode,
   };
 
   return (
-    <>
+    <Box sx={{ flexGrow: 1 }}>
       {successChangeStatus && (
         <AlertComponent
           title={message.ADVERTISESTATUSCHANGED}
           severity="success"
         />
       )}
-      <Card key={adData.id} style={{ backgroundColor: themes[mode].AdsCard.backgroundColor, }}
+
+      <Card key={adData.id} style={{
+        backgroundColor: themes[mode].AdsCard.backgroundColor,
+        maxWidth: "620px",
+        margin: "auto",
+        display: "block",
+        // width: "65vh",
+      }}
       >
         <CardHeader
           avatar={
@@ -181,20 +190,24 @@ function AdCard({ adData, user, mode,
           subheader={formaDateTime(adData.created_at)}
         />
 
-        <CardContent sx={{ height: "300px" }}>
+        <CardContent sx={{
+          height: "300px", margin: "auto"
+        }}>
           <Grid container alignItems={"center"}>
             {adData && (
               <Grid
                 item
                 key={adData?.media?.[0].id}
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
+
               >
                 <CardMedia
+                  sx={{
+                    width: "100%",
+                    objectFit: "contain",
+                    display: "flex",
+                    justifyContent: "space-around",
+                  }}
                   component="img"
-                  width="200"
                   height="200"
                   image={adData?.media?.[0].file_path}
                   alt={adData?.media?.[0].id}
@@ -216,31 +229,11 @@ function AdCard({ adData, user, mode,
             {adData.description}
           </Typography>
 
-          {(currentUser?.user?.id === adData.user_id ||
-            currentUser?.user?.role_id == 2) && (
-              <Typography
-                color="textSecondary"
-                noWrap
-                variant="body2"
-                gutterBottom
-                style={{
-                  color:
-                    adData.status == "0"
-                      ? "orange"
-                      : adData.status == "1"
-                        ? "red"
-                        : adData.status == "2"
-                          ? "green"
-                          : "inherit",
-                }}
-              >
-                Status:  {statusToString(adData.status)}
-              </Typography>
-            )}
+       
         </CardContent>
         <CardActions disableSpacing>
           <Grid container justifyContent="space-between">
-            <Grid item xs={12} sm={4} md={3} lg={3}>
+            <Grid item xs={3} sm={3} md={3} lg={3}>
               <IconButton
                 aria-label="add to favorites"
                 onClick={() => setfavorit(adData.id)}
@@ -248,7 +241,7 @@ function AdCard({ adData, user, mode,
                 {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteIcon />}
               </IconButton>
             </Grid>
-            <Grid item xs={12} sm={4} md={3} lg={3}>
+            <Grid item xs={3} sm={3} md={3} lg={3}>
               <CustomLink to={"/advertise/" + adData.id}>
                 <IconButton
                   color="default"
@@ -259,7 +252,8 @@ function AdCard({ adData, user, mode,
                 </IconButton>
               </CustomLink>
             </Grid>
-            {currentUser?.user?.id !== adData.user_id && <Grid item xs={12} sm={4} md={3} lg={3}>
+            {currentUser?.user?.id !== adData.user_id && <Grid item xs={3} sm={3} md={3} lg={3}>
+
               <CustomLink to={"/user/messages/" + adData?.user_id}>
                 <IconButton aria-label="send">
                   <ChatOutlinedIcon />
@@ -305,7 +299,7 @@ function AdCard({ adData, user, mode,
           </Grid>
         </Grid>}
       </Card>
-    </>
+    </Box>
   );
 }
 

@@ -101,7 +101,6 @@ export const Comment: React.FC <Props>= ({
     setComment("");
   };
 
-  console.log({data})
   return (
     <>
       {(isLoading || isFetching) && <TextSkeleton />}
@@ -112,10 +111,10 @@ export const Comment: React.FC <Props>= ({
                     severity="success"
                 />
             )}
-      <StyledCommentPaper  style={{ backgroundColor: themes[mode].comment.backgroundColor }} >
+      <StyledCommentPaper  style={{ backgroundColor: themes[mode].comment.backgroundColor, minWidth:"700px",width:"100vw" }} >
         <Typography>Comments :</Typography>
         <Grid container justifyContent="center" p={4} >
-          <Grid item xs={12} sm={11} md={11} lg={10}>
+          <Grid item xs={12} sm={11} md={12} lg={12}>
             <TextField
               multiline
               rows={1}

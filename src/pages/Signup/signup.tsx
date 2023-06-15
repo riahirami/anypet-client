@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../redux/hooks";
-import { User } from "../core/models/user.model";
-import { RegisterResponse } from "../core/models/registreResponse.model";
-import { useRegistreUserMutation } from "../redux/api/authApi";
-import { setUser, registre } from "../redux/slices/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { User } from "../../core/models/user.model";
+import { RegisterResponse } from "../../core/models/registreResponse.model";
+import { useRegistreUserMutation } from "../../redux/api/authApi";
+import { setUser, registre } from "../../redux/slices/authSlice";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   Avatar,
-  Button,
   CssBaseline,
   TextField,
   Grid,
-  Link,
-  Box,
   Typography,
   Container,
   Alert, Divider,
   Chip
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import CustomModal from "../Components/Modal/CustomModal";
+import CustomModal from "../../Components/Modal/CustomModal";
 import { useFormik, Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import AlertComponent from "./../Components/Alert/Alert";
+import AlertComponent from "../../Components/Alert/Alert";
+import { CustomImg, CustomSignUpBox, CustomButton,CustomAvatar } from "./Signup.style";
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string()
@@ -151,11 +149,10 @@ function Signup() {
       <Grid container >
 
         <Grid item>
-          <img
+          <CustomImg
             src={process.env.PUBLIC_URL + "/illustrations/5515846.jpg"}
             alt="Man playing with a dog"
-            style={{ opacity: "0.6",  zIndex: "1",width: "90%", position: "absolute", top: "100px", right: "0px", bottom: "0px" }}
-          />
+          ></CustomImg>
         </Grid>
       </Grid>
       {/* material ui  */}
@@ -169,27 +166,15 @@ function Signup() {
 
 
             <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",zIndex: "2",
-                background: "aliceblue",
-                position: "relative",
-                padding: "50px",
-                width: "501px",
-                border:"2px solid #048694"
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <CustomSignUpBox>
+              <CustomAvatar >
                 <LockOutlinedIcon />
-              </Avatar>
+              </CustomAvatar>
               <Typography component="h1" variant="h5">
                 Sign up
               </Typography>
               <Grid style={{
-                
+
               }}>
                 <form onSubmit={formik.handleSubmit}>
                   <Grid container spacing={2}>
@@ -286,34 +271,33 @@ function Signup() {
                         <Alert severity="error">{formik.errors.address}</Alert>
                       ) : null}
                     </Grid>
-                    <Grid item xs={12} sm={6} md={12}>
-                      <Button
+                    <Grid item xs={12} sm={12} md={12}>
+                      <CustomButton
                         fullWidth
                         variant="contained"
                         type="submit"
                         disabled={isRegistreLoading}
                       >
                         Submit
-                      </Button>
+                      </CustomButton>
                       <Divider>
                         <Chip label="Do you have an account ?" />
                       </Divider>
-                      <Button
+                      <CustomButton
                         href="/signin"
                         type="button"
                         fullWidth
-                        sx={{ mt: 3, mb: 2 }}
                         variant="contained"
                       >
                         {"Sign in"}
-                      </Button>
+                      </CustomButton>
                     </Grid>
 
                   </Grid>
                 </form>
               </Grid>
 
-            </Box>
+            </CustomSignUpBox>
           </Container>
         </ThemeProvider>
       </div>

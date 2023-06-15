@@ -44,7 +44,10 @@ export interface RequestResponse {
     updated_at: string;
     receiver: User;
     advertisement?: Ad;
-    sender?:User
+    sender?:User;
+    data?:{
+        message?:string;
+    }
 }
 
 export interface BodyCreateReservation {

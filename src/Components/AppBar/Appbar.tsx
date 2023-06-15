@@ -12,7 +12,12 @@ import FlagUSA from '../Flags/FlagUSA';
 import PetsIcon from '@mui/icons-material/Pets';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useSelector, useDispatch } from "react-redux";
-import { AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button, Avatar, Tooltip, Grid, useTheme } from '@mui/material';
+import {
+  AppBar, Container, Toolbar, Typography, Box, IconButton, Menu, MenuItem, Button, Avatar, Tooltip, Drawer,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Notifications from 'Components/Notifications/Notifications';
 import ConversationsComponent from 'Components/Conversations/Conversations';
@@ -23,6 +28,7 @@ import { Badge } from 'Components/Badge/Badge';
 import { RootState } from 'redux/store';
 import { logout } from 'redux/slices/authSlice';
 import { useLogoutUserMutation } from 'redux/api/authApi';
+import { useState } from 'react';
 
 export const ResponsiveAppBar: React.FC<Props> = ({
   mode,
@@ -34,14 +40,16 @@ export const ResponsiveAppBar: React.FC<Props> = ({
     { code: 'en', name: 'English', flag: <FlagUSA /> },
   ];
 
+ 
   const authUser = useSelector((state: RootState) => state.auth);
   const listFavorites = useSelector((state: any) => state.favorite.favoriteList);
 
   const dispatch = useDispatch();
+  
 
-
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
+  const [anchorElUserXs, setAnchorElUserXs] = useState<null | HTMLElement>(null)
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -57,26 +65,41 @@ export const ResponsiveAppBar: React.FC<Props> = ({
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleOpenUserXs = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUserXs(event.currentTarget);
+  };
+  const handleCloseUserXs = () => {
+    setAnchorElUserXs(null);
+  };
+
   const handleLanguageSelect = (code: string) => {
     // Implement your logic to set the selected language in your application
     console.log('Selected language:', code);
   };
 
-  const [logoutUser] = useLogoutUserMutation() ;
+  const [logoutUser] = useLogoutUserMutation();
 
   const logOut = async () => {
-    const token = authUser?.token ;
+    const token = authUser?.token;
     dispatch(logout());
     localStorage.clear();
     handleCloseUserMenu();
-    if (token)
-   { await logoutUser({token});}
+    if (token) { await logoutUser({ token }); }
   }
 
+  const [open, setOpen] = useState(false);
 
+  const handleOpenDrawer = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setOpen(false);
+  };
 
   return (
-    <AppBar position="fixed" style={{ backgroundColor: themes[mode].topbar.backgroundColor }} >
+    <AppBar position="fixed" style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color }} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -98,45 +121,109 @@ export const ResponsiveAppBar: React.FC<Props> = ({
             Anypet
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none', lg: 'none' } }}
+
+          >
             <IconButton
               size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              aria-label="open drawer"
+              onClick={handleOpenDrawer}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
 
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+            <Drawer
+              anchor="bottom"
+              open={open}
+              onClose={handleCloseDrawer}
             >
-              {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <CustomLink to={page.path} >
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </CustomLink>
-                </MenuItem>
-              ))}
-            </Menu>
+              <List style={{ display: "flex", backgroundColor: themes[mode].sideBar.backgroundColor }}>
+                <ListItem
+                  onClick={handleCloseDrawer}
+                >
+                  <ListItemText>
+                    <IconButton onClick={handleThemeChange}>
+                      {mode === Theme.LIGHT ? (
+                        <DarkModeOutlinedIcon />
+                      ) : (
+                        <LightModeOutlinedIcon />
+                      )}
+                    </IconButton>
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                >
+                  <ListItemText>
+                    <LanguageButton languages={languages} onSelectLanguage={handleLanguageSelect} />
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                  onClick={handleCloseDrawer}
+                >
+                  <ListItemText>
+                    <CustomLink to="/myfavorites">
+                      <IconButton>
+                        <FavoriteIcon color="error" />
+                        <Badge>{(listFavorites.data && listFavorites.data.length) > 0 ? listFavorites.data?.length : 0}</Badge>
+                      </IconButton>
+                    </CustomLink>
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                >
+                  <ListItemText>
+                    <ConversationsComponent />
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                  onClick={handleCloseDrawer}
+                >
+                  <ListItemText>
+                    <Notifications />
+                  </ListItemText>
+                </ListItem>
+                <ListItem
+                >
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserXs} sx={{ p: 0 }}>
+                      <Avatar alt="Remy Sharp" src={authUser?.user?.avatar} />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: '-48px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUserXs}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                    open={Boolean(anchorElUserXs)}
+                    onClose={handleCloseUserXs}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem key={setting.name} onClick={() => {
+                        if (setting.name === 'Logout') {
+                          logOut();
+                        }
+                      }}>
+                        <CustomLink to={setting.path}>
+                          <Typography textAlign="center">{setting.name}</Typography>
+                        </CustomLink>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </ListItem>
+              </List>
+            </Drawer>
           </Box>
+
+
           <PetsIcon sx={{ display: { xs: 'none', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -156,21 +243,21 @@ export const ResponsiveAppBar: React.FC<Props> = ({
           >
             AnyPet
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
             {pages.map((page) => (
+              <CustomLink to={page.path} >
               <Button
                 key={page.name}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, display: 'block', color:themes[mode].topbar.color               }}
               >
-                <CustomLink to={page.path} >
-                  {page.name} </CustomLink>
+                  {page.name} 
               </Button>
+                  </CustomLink>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }} style={{ display: "flex", alignItems: " center" }}>
-
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, alignItems: " center" }}>
             <IconButton onClick={handleThemeChange}>
               {mode === Theme.LIGHT ? (
                 <DarkModeOutlinedIcon />

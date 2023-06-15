@@ -1,10 +1,10 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import { Props } from '../AppBar/Appbar.props';
-import { themes} from '../../Theme/Themes';
+import { themes } from '../../Theme/Themes';
 import Categories from "Components/Categories/Categories";
 import AllNotifications from "pages/AllNotifications";
-import Signin from "pages/signin";
+import Signin from "pages/Signin/signin";
 import { Advertises } from "Components/Advertises/Advertises";
 import {
     Routes,
@@ -26,6 +26,7 @@ import Slider from "react-slick";
 import StateListCollapseComponent from "Components/ListMenuCollapse/StateListCollapseComponent";
 import { CategoryListCollapseComponent } from "Components/ListMenuCollapse/CategoryListCollapseComponent";
 import AdsByState from "pages/Advertises/AdsByState";
+import Home from "pages/Home";
 
 
 export const ContainerComponent: React.FC<Props> = ({
@@ -34,36 +35,24 @@ export const ContainerComponent: React.FC<Props> = ({
 }) => {
 
     return (
-        <Grid container spacing={1} style={{ minHeight: "100vh", height: "100%", backgroundColor: themes[mode].container.backgroundColor }}>
+        <Grid container spacing={1} style={{minWidth:"700px", minHeight: "100vh", backgroundColor: themes[mode].container.backgroundColor }}>
 
-
-
-            <Grid item md={12}>
+            <Grid>
                 <Routes>
                     <Route >
                         <Route path="/ads/state/:id" element={<AdsByState mode={mode} handleThemeChange={handleThemeChange} />} />
 
                         <Route path="/signin" element={<Signin />} />
                         <Route path="/home" element={
-                            <><Grid container> 
-                            <Grid item md={2} style={{ minHeight: "100vh", height: "100%", backgroundColor: themes[mode].sideBar.backgroundColor }}>
-                                {/* <Categories mode={mode} handleThemeChange={handleThemeChange} /> */}
-                                <CategoryListCollapseComponent />
-                                <StateListCollapseComponent />
-
-                            </Grid>
-                                <Grid item md={10}>
-                                    <Advertises mode={mode} handleThemeChange={handleThemeChange} />
-                                </Grid>
-                            </Grid>
-                                <Grid item md={12}>
-                                    <ListPartners />
-                                </Grid></>
-
+                          <Home  mode={mode} handleThemeChange={handleThemeChange} />
                         } />
                         <Route
                             path="partner/:id"
-                            element={<ShowPartner />} />
+                            element={
+                                <Grid item xs={12} sm={12} md={12} lg={12}>
+
+                                    <ShowPartner />
+                                </Grid>} />
                         <Route path="/advertise/category/:id" element={<AdsByCategory mode={mode} handleThemeChange={handleThemeChange} />} />
                         <Route
                             path="advertise/:id"

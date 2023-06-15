@@ -6,10 +6,13 @@ export const themes = {
       textDecoration: "none",
 
     },
-    MenuItem: {
+    menuItem: {
       hover: {
-        backgroundColor: "#c5e4ff",
+        backgroundColor: "#5fa8d3",
         color: "#44596e",
+      },
+      link: {
+        color: "#000000",
       },
     },
     container: {
@@ -22,7 +25,11 @@ export const themes = {
       backgroundColor: "#ffffff",
       color: "black",
       textDecoration: "none",
-
+    }, 
+    advertises: {
+      backgroundColor: "#ffffff",
+      color: "black",
+      textDecoration: "none",
     },
     AdsCard: {
       backgroundColor: "#ffffff",
@@ -46,7 +53,7 @@ export const themes = {
   dark: {
     topbar: {
       backgroundColor: "#2C3333",
-      color: "black",
+      color: "#185A61",
       textDecoration: "none",
 
     },
@@ -54,17 +61,28 @@ export const themes = {
       backgroundColor: "#393E46",
       color: "white",
       textDecoration: "none",
-
+    },
+    menuItem: {
+      hover: {
+        backgroundColor: "#185A61",
+        color: "#44596e",
+      },
+      link: {
+        color: "black",
+      },
     },
     sideBar: {
-      backgroundColor: "#112b51",
+      backgroundColor: "#2C3333",
       color: "white",
       textDecoration: "none",
-     
-
+    },
+    advertises: {
+      backgroundColor: "#2C3333",
+      color: "white",
+      textDecoration: "none",
     },
     AdsCard: {
-      backgroundColor: "#112b51",
+      backgroundColor: "#185A61",
       color: "#ffffff",
 
     },

@@ -21,9 +21,18 @@ export const message= {
 
 
     RESERVATIONSEND: "Your reservation has been send successfully",
+    ERRORRESERVATIONSEND: "Your reservation van't be send actually",
     RESERVATIONUPDATED: "Your reservation has been updated successfully",
     
     
     COMMENTDELETED: "Your comment has been deleted successfully",
+
+
+    ERRORLOGIN: "Error login ! Check your email & your password",
+
+
+    ERRORCONTACTUS: "Error to send your message ! Try again later ",
+
+
 }
 

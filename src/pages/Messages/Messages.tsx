@@ -81,7 +81,7 @@ const Messages = () => {
   };
 
   return (
-    <>
+    <Grid style={{ width: "100vw" }}>
       {isLoading && <Spinner />}
       <Button variant="text">
         <CustomLink to={"/user/conversations/"}>
@@ -126,7 +126,7 @@ const Messages = () => {
           </CustomSendButton>
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

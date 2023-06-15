@@ -1,19 +1,21 @@
 export const settings = {
   dots: true,
-  className: "center",
+  infinite: true,
+  // className: "center",
   centerMode: true,
-  arrow: true,
+  arrows: true,
   speed: 500,
   centerPadding: "60px",
-  slidesToShow: 2,
+  slidesToShow: 1,
   slidesToScroll: 1,
   autoplay: true,
+  swipeToSlide: true,
   responsive: [
     {
-      breakpoint: 1024,
+      breakpoint: 480,
       settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: 1,
+        slidesToScroll: 1,
         infinite: true,
         dots: true
       }
@@ -25,16 +27,18 @@ export const settings = {
         slidesToScroll: 1,
         initialSlide: 1,
         infinite: true,
+        dots: true
       }
     },
     {
-      breakpoint: 480,
+      breakpoint: 1024,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
         infinite: true,
-
+        dots: true
       }
-    }
+    },
   ]
+
 };

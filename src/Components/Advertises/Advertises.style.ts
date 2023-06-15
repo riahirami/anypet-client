@@ -3,7 +3,7 @@ import { Button, FormControl, TextField, Grid } from "@mui/material";
 
 
 export const CustomGlobalGrid = styled(Grid)({
-   marginTop:"100px"
+   paddingTop:"100px"
 });
 
 export const StyledButton = styled(Button)({

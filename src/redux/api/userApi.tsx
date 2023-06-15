@@ -57,7 +57,7 @@ export const userApi = createApi({
       },
       providesTags: ["User"],
     }),
-    listUnreadNotifications: builder.query<any, string | undefined>({
+    listUnreadNotifications: builder.query<any, string | number | undefined>({
       query: (id) => {
         return {
           url: endpoints.USERLISTUNREADNOTIFICATIONS + id,
@@ -78,6 +78,14 @@ export const userApi = createApi({
     sendMessage: builder.mutation<any, SendMessageRequest>({
       query: ({ receiver_id, message }) => ({
         url: endpoints.MESSAGES + receiver_id,
+        method: 'POST',
+        body: { message },
+      }),
+      invalidatesTags: ['User'],
+    }),
+    ContactAdmin: builder.mutation({
+      query: (message ) => ({
+        url: endpoints.CONTACTUS,
         method: 'POST',
         body: { message },
       }),
@@ -111,5 +119,6 @@ export const {
   useMarkAllAsReadNotificationsMutation,
   useSendMessageMutation,
   useGetConversationQuery,
-  useGetListConversationsQuery
+  useGetListConversationsQuery,
+  useContactAdminMutation
 } = userApi;

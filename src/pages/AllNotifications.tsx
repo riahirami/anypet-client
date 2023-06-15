@@ -17,11 +17,13 @@ const AllNotifications = () => {
     currentUser?.user?.id
   );
   return (
-    <CustomGlobalGrid>
+    <CustomGlobalGrid   style={{ width: "100vw" }}>
+    
       <Typography>All Notifications</Typography>
 
       {data?.data?.map((notification: any) => (
-        <>
+            <>
+
           <Grid
             key={notification.id}
             container

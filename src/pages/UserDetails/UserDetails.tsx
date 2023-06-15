@@ -1,6 +1,5 @@
 import {
   Grid,
-  Box,
   Avatar,
   Typography,
   Divider,
@@ -11,8 +10,7 @@ import {
   Button,
   CardContent,
 } from "@mui/material";
-import AdCard from "Components/Card/AdsCard";
-import { Ad, AdData } from "core/models/ad.model";
+import { Ad } from "core/models/ad.model";
 import React from "react";
 import {  useParams } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
@@ -62,7 +60,7 @@ export const UserDetails = (Props?: {userId:string}) => {
       <Grid container>
         <Grid container item spacing={2}>
           {data?.data?.ads?.map((adData: Ad) => (
-            <Grid item md={4} xs={12} key={adData?.id}>
+            <Grid item key={adData?.id} xs={6} md={4} lg={4} >
               {/* <AdCard adData={adData} /> */}
 
               <Card className={classes.root} sx={{ height: "350px" }}>

@@ -1,8 +1,32 @@
-import React from 'react'
+import { Grid } from '@mui/material'
+import { CategoryListCollapseComponent } from 'Components/ListMenuCollapse/CategoryListCollapseComponent'
+import { Advertises } from "Components/Advertises/Advertises";
+import ListPartners from "pages/Partner/ListPartner/ListPartners";
+import StateListCollapseComponent from "Components/ListMenuCollapse/StateListCollapseComponent";
+import { Props } from 'Components/AppBar/Appbar.props';
+import { themes } from '../Theme/Themes';
+import HeaderCaroussel from 'Components/HeaderCaroussel/HeaderCaroussel';
 
-const Home = () => {
+const Home: React.FC<Props> = ({
+  mode,
+  handleThemeChange,
+}) => {
+
   return (
-    <div>Home</div>
+    <>
+      <Grid container spacing={4}>
+        <HeaderCaroussel />
+        <Grid item xs={12} sm={12} md={2} lg={2} style={{ minHeight: "auto", marginTop:"32px", backgroundColor: themes[mode].sideBar.backgroundColor }}>
+          {/* <Categories mode={mode} handleThemeChange={handleThemeChange} /> */}
+          <CategoryListCollapseComponent mode={mode} handleThemeChange={handleThemeChange} />
+          <StateListCollapseComponent mode={mode} handleThemeChange={handleThemeChange} />
+        </Grid>
+        <Grid item xs={12} sm={12} md={10} lg={10}>
+          <Advertises mode={mode} handleThemeChange={handleThemeChange} />
+        </Grid>
+      </Grid>
+      <ListPartners />
+    </>
   )
 }
 

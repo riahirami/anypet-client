@@ -19,11 +19,16 @@ import { setCategories } from 'redux/slices/categorySlice';
 import { Category } from 'core/models/category.model';
 import AlertComponent from 'Components/Alert/Alert';
 import TextSkeleton from 'Components/Skeleton/TextSkeleton';
+import { Props } from '../AppBar/Appbar.props';
+import { themes } from '../../Theme/Themes';
 
-export const CategoryListCollapseComponent = () => {
-    const [open, setOpen] = useState(true);
+export const CategoryListCollapseComponent: React.FC<Props> = ({
+    mode,
+    handleThemeChange,
+}) => {
+    const [open, setOpen] = useState(false);
 
-    const { data: dataAllCategory, isSuccess,isLoading } = useGetAllCategoriesQuery(100);
+    const { data: dataAllCategory, isSuccess, isLoading } = useGetAllCategoriesQuery(100);
 
     const categories = useSelector((state: RootState) => state.category);
 
@@ -40,38 +45,42 @@ export const CategoryListCollapseComponent = () => {
 
 
     if (isLoading)
-    return (
-        <TextSkeleton />
-    )
+        return (
+            <TextSkeleton />
+        )
     if (isSuccess)
-    return (
-        <CustomGlobalGrid>
+        return (
+            <Grid >
 
-            <ListItemButton onClick={handleClick}>
-                <ListItemIcon>
-                    <ListIcon />
-                </ListItemIcon>
-                <ListItemText primary="Categories" />
-                {open ? <ExpandLess /> : <ExpandMore />}
-            </ListItemButton>
-            {isSuccess &&
-                categories?.categories?.data?.map((category:Category) => (
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <CustomLink to={"/advertise/category/" + category.id}>
-                                <ListItemButton sx={{ pl: 4 }}>
-                                    <ListItemIcon>
-                                        <ArrowForwardIosOutlinedIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={category.title} />
-                                </ListItemButton>
-                            </CustomLink>
-                        </List>
-                    </Collapse>
-                ))
-            }
-        </CustomGlobalGrid>
-    )
+                <ListItemButton onClick={handleClick}>
+                    <ListItemIcon>
+                        <ListIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Categories" />
+                    {open ? <ExpandLess /> : <ExpandMore />}
+                </ListItemButton>
+                {isSuccess &&
+                    categories?.categories?.data?.map((category: Category) => (
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding sx={{
+                                '&:hover': {
+                                    backgroundColor: themes[mode].menuItem.hover.backgroundColor,
+                                }
+                            }}>
+                                <CustomLink to={"/advertise/category/" + category.id}  >
+                                    <ListItemButton sx={{ pl: 4,textDecoration: 'none',color: themes[mode].menuItem.link.color}}>
+                                        <ListItemIcon>
+                                            <ArrowForwardIosOutlinedIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary={category.title} />
+                                    </ListItemButton>
+                                </CustomLink>
+                            </List>
+                        </Collapse>
+                    ))
+                }
+            </Grid>
+        )
 
     return (
         <AlertComponent severity='error' title={"no category found"} />

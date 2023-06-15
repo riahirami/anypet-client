@@ -3,7 +3,7 @@ import { useGetPartnerByIdQuery } from 'redux/api/partnerApi';
 import { Typography, Grid, Avatar, CardMedia, Divider } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { ContainerSkeleton } from "Components/Skeleton/ContainerSkeleton";
-import { StyledGridMedia, StyledGridLogo, StyledGridInfo, StyledGlobalGrid, StyledGridInfoItem } from "./ShowPartner.style";
+import {  StyledGridLogo, StyledGridInfo, StyledGlobalGrid, StyledGridInfoItem } from "./ShowPartner.style";
 
 import PhoneInTalkOutlinedIcon from '@mui/icons-material/PhoneInTalkOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -12,9 +12,6 @@ import AdsClickOutlinedIcon from '@mui/icons-material/AdsClickOutlined';
 import 'react-animated-slider/build/horizontal.css';
 
 import Slider from "react-slick";
-// Import css files
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { settings } from './Slider.settings';
 
 const ShowPartner = () => {
@@ -35,14 +32,15 @@ const ShowPartner = () => {
 
     return (
 
-        <StyledGlobalGrid  >
+        <StyledGlobalGrid  style={{ width: "100vw" }}>
+        
             {/* <StyledGridMedia> */}
             <Slider {...settings}>
 
                 {isSuccess &&
                     partner?.media?.map((media: any) => {
                         return (
-                            <Grid item key={media.id} xs={12} sm={12} md={12} lg={12}>
+                            <Grid item key={media.id}>
                                 <CardMedia style={{
                                     objectFit: "contain"
                                 }}

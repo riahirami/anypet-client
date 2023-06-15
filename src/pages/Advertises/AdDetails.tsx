@@ -56,11 +56,13 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { settings } from "./Slider.settings";
+import { themes } from "Theme/Themes";
+
 
 
 const AdDetails: React.FC<Props> = ({ mode,
   handleThemeChange }) => {
- 
+
 
   const { id } = useParams();
   const { data: { data: adData } = {}, isLoading } = useGetAdByIdQuery(id);
@@ -74,7 +76,7 @@ const AdDetails: React.FC<Props> = ({ mode,
   const user = getCurrentUser();
 
   const { data, refetch } = useListFavoriteQuery(user?.user?.id);
-  const [makeReservation, { isSuccess: successReservation, isLoading: reservationLoading }] = useCreateReservationsMutation();
+  const [makeReservation, {data:ReservationData, isSuccess: successReservation, isLoading: reservationLoading, isError }] = useCreateReservationsMutation();
 
   const [isFavorite, setIsFavorit] = useState<boolean>();
 
@@ -161,7 +163,7 @@ const AdDetails: React.FC<Props> = ({ mode,
       reservation_date: dateValue + " " + timeValue,
     });
   }
-
+  
   return (
     <CustomGlobalGrid>
       {successReservation && (
@@ -170,6 +172,7 @@ const AdDetails: React.FC<Props> = ({ mode,
           severity="success"
         />
       )}
+              {isError && <AlertComponent title={CONSTMessage.ERRORRESERVATIONSEND} severity={"error"} />}
       <Dialog
         open={open}
         keepMounted
@@ -177,7 +180,7 @@ const AdDetails: React.FC<Props> = ({ mode,
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>{"Choose a date and add a message to your reservation request"}</DialogTitle>
-        <DialogContent>
+        <DialogContent >
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={["DatePicker", 'TimePicker']}>
               <DatePicker
@@ -249,27 +252,30 @@ const AdDetails: React.FC<Props> = ({ mode,
           </Grid>
         </Grid>
 
-        {/* <Grid container alignItems={"center"}> */}
-        <Slider {...settings} >
+        {/* <Box  sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, alignItems: " center" }} > */}
+        <Grid style={{ width: "96vh", margin: "auto" }}>
 
-          {adData &&
-            adData?.media?.map((media: any) => {
-              return (
-                <Grid item key={media.id} xs={12} sm={12} md={12} lg={12}>
-                  <CardMedia style={{
-                    objectFit: "contain"
-                  }}
-                    component="img"
-                    // width="200"
-                    height="400"
-                    image={media.file_path}
-                    key={media.id}
-                  />
-                </Grid>
-              );
-            })}
-        </Slider>
-        {/* </Grid> */}
+          <Slider {...settings} >
+
+            {adData &&
+              adData?.media?.map((media: any) => {
+                return (
+                  <Grid item key={media.id} xs={12} sm={12} md={12} lg={12}>
+                    <CardMedia style={{
+                      objectFit: "contain"
+                    }}
+                      component="img"
+                      // width="200"
+                      height="400"
+                      image={media.file_path}
+                      key={media.id}
+                    />
+                  </Grid>
+                );
+              })}
+          </Slider>
+        </Grid>
+        {/* </Box> */}
 
         <Grid
           container

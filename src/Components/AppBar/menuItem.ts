@@ -1,7 +1,6 @@
 export const pages = [
     { name: 'Home', path: '/home' },
-    { name: 'Categories', path: '/categories' },
-    { name: 'chat', path: '/chat' },
+    { name: 'About us', path: '/about-us' },
     { name: 'Contact us', path: '/contact-us' },
 ];
 

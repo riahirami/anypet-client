@@ -38,6 +38,7 @@ import { RootState } from 'redux/store';
 import { getAds } from 'redux/slices/adsSlice';
 import { CustomGlobalGrid } from "./Advertises.style";
 import CardSkeleton from "Components/Skeleton/CardSkeleton";
+import { themes } from "Theme/Themes";
 
 export const Advertises: React.FC<Props> = ({
   mode,
@@ -116,17 +117,17 @@ export const Advertises: React.FC<Props> = ({
 
 
   return (
-    <CustomGlobalGrid   >
 
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item xs={12} sm={3} md={4} lg={3}>
-          <Box display="flex" borderRadius="3px" style={{border:"1px solid grey"}}>
+    <CustomGlobalGrid  style={{ backgroundColor: themes[mode].advertises.backgroundColor, padding:"20px" }} >
+
+      <Grid container justifyContent="space-between" alignItems="center" sx={{mb:10}}>
+        <Grid item xs={4} sm={4} md={4} lg={3}>
+          <Box display="flex" borderRadius="3px" style={{ border: "1px solid grey", marginLeft:'15px' }}>
             <InputBase
               sx={{ ml: 2, flex: 1 }}
               placeholder="Search"
               defaultValue={key}
               onChange={(event) => {
-                // setParameters({...parameters,keyword:event.target.value === '' ? undefined : event.target.value})
                 setSearchTerm(event.target.value);
               }}
             />
@@ -135,7 +136,7 @@ export const Advertises: React.FC<Props> = ({
             </IconButton>
           </Box>
         </Grid>
-{/* 
+        {/* 
         <Grid item xs={12} sm={4} md={4}>
           <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -152,7 +153,7 @@ export const Advertises: React.FC<Props> = ({
           </Box>
         </Grid> */}
 
-        <Grid item xs={4} sm={4} md={4} style={{ display: "flex", justifyContent: "flex-end" }} >
+        <Grid item xs={8} sm={8} md={8} lg={9} style={{ display: "flex", justifyContent: "flex-end" }}>
           <PerPageSelect
             defaultValue={parameters.perPage}
             value={parameters.perPage}
@@ -171,8 +172,7 @@ export const Advertises: React.FC<Props> = ({
         </Grid>
       </Grid>
 
-      <br />
-      <br />
+
       <Grid>
         {isLoading && <Spinner />}
 
@@ -182,7 +182,7 @@ export const Advertises: React.FC<Props> = ({
           <Grid container spacing={1}>
             <Grid container spacing={2}>
               {data?.data.map((ad: Ad) => (
-                <Grid item key={ad.id} xs={12} sm={6} md={4} lg={3}>
+                <Grid item key={ad.id} xs={6} sm={6} md={4} lg={3}>
                   {isFetching ? <CardSkeleton />
                     : <AdCard adData={ad} mode={mode} handleThemeChange={handleThemeChange} />}
                 </Grid>
@@ -206,5 +206,6 @@ export const Advertises: React.FC<Props> = ({
 
       </Grid>
     </CustomGlobalGrid>
+
   );
 };
