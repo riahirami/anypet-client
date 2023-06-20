@@ -25,7 +25,7 @@ export const themes = {
       backgroundColor: "#ffffff",
       color: "black",
       textDecoration: "none",
-    }, 
+    },
     advertises: {
       backgroundColor: "#ffffff",
       color: "black",
@@ -34,7 +34,7 @@ export const themes = {
     AdsCard: {
       backgroundColor: "#ffffff",
       color: "white",
-    
+
     },
     comment: {
       backgroundColor: "#ffffff",
@@ -46,14 +46,22 @@ export const themes = {
     },
     link: {
       textDecoration: "none",
-      color:"black"
+      color: "black"
+    },
+    conversations: {
+      backgroundColor: "#5fa8d3",
+      color: "black"
+    },
+    messages: {
+      backgroundColor: "#c9c9c9",
+      color:"white"
     }
 
   },
   dark: {
     topbar: {
       backgroundColor: "#2C3333",
-      color: "#185A61",
+      color: "#fff",
       textDecoration: "none",
 
     },
@@ -96,6 +104,14 @@ export const themes = {
     },
     link: {
       textDecoration: "none",
+      color: "white"
+    } ,
+    conversations: {
+      backgroundColor: "#2C3333",
+      color:"white"
+    },
+    messages: {
+      backgroundColor: "#c9c9c9",
       color:"white"
     }
   },

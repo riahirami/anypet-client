@@ -279,7 +279,7 @@ export const ResponsiveAppBar: React.FC<Props> = ({
 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={authUser?.user?.avatar} />
+                <Avatar alt={authUser?.user?.firstname} src={authUser?.user?.avatar} />
               </IconButton>
             </Tooltip>
             <Menu

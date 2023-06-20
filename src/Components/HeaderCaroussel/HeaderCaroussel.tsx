@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, CardMedia, Typography } from '@mui/material';
 import { useGetPartnersQuery, useDeletePartnerMutation } from '../../redux/api/partnerApi';
 import { Partner } from "../../core/models/partner.model";
 import { PATHS } from '../../routes/Path';
@@ -13,6 +13,18 @@ const HeaderCaroussel = () => {
 
     const ads = useSelector((state: RootState) => state.ad.ad);
 
+    const imgList = {
+        data: {
+            media: [
+                { file_path: "adoptions.jpg" },
+                { file_path: "maxresdefault.jpg" },
+                { file_path: "PetAdoptionTips850.jpg" },
+                { file_path: "s9374nb1uljetw02.png" },
+            ]
+        }
+
+    }
+
     return (
         <>
             <StyledHeaderCaroussel container>
@@ -21,17 +33,10 @@ const HeaderCaroussel = () => {
                 <Slider {...settings}>
 
                     {
-                        ads?.data?.map((ad: any) => (
-                            <CustomLink key={ad.id} to={"/advertise/" + ad?.id}>
-                                <Avatar style={{width: '100vw',objectFit: 'cover'}} variant="square" src={ad?.media?.[1].file_path} sx={{
-                                    margin: 30,
-                                    height: 400,
-                                    width: 500,
-                                    // border: "4px solid #185A61",
-                                    m: 5,
-                                    
-                                }}></Avatar>
-                            </CustomLink>
+                        imgList?.data?.media?.map((ad: any) => (
+                            
+
+                                <CardMedia component="img" height={600} alt={ad?.file_path} key={ad?.file_path} image={process.env.PUBLIC_URL + "/article/" + ad?.file_path} />
                         ))}
 
                 </Slider>

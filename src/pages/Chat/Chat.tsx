@@ -84,7 +84,7 @@ const Chat = () => {
         <Grid container >
 
             <Grid item md={4}>
-                <Conversations />
+                {/* <Conversations /> */}
             </Grid>
             <Grid item md={8}>
 

@@ -125,7 +125,7 @@ export const adsApi = createApi({
         };
       },
     }),
-    getMyAds: builder.query<any, string | undefined>({
+    getMyAds: builder.query<any, string | number | undefined>({
       query: (id) => {
         return {
           url: endpoints.MYADS + id,

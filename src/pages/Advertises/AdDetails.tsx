@@ -48,7 +48,7 @@ import { useCreateReservationsMutation } from "redux/api/reservationApi";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { selectCategory } from "redux/slices/categorySlice";
-import { CustomGlobalGrid } from '../../Components/Advertises/Advertises.style';
+import { CustomGlobalGrid } from './AdDetails.style';
 
 import 'react-animated-slider/build/horizontal.css';
 import Slider from "react-slick";

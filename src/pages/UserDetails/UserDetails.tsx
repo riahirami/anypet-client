@@ -17,9 +17,8 @@ import { makeStyles } from "@mui/styles";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { formaDateTime } from "core/services/helpers";
 import CustomLink from "Components/CustomLink/CustomLink"
-import {CustomGridAvatarName,CustomTypography,CustomBox} from "./UserDetails.style"
+import {CustomGlobalGrid,CustomGridAvatarName,CustomTypography,CustomBox} from "./UserDetails.style"
 import { useUserDetailsQuery } from "redux/api/userApi";
-import { CustomGlobalGrid } from "Components/Advertises/Advertises.style";
 import { selectCategory } from "redux/slices/categorySlice";
 import { useSelector } from "react-redux";
 

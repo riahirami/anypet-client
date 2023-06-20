@@ -15,6 +15,7 @@ export const CustomSignInBox = styled(Box)(({ theme }) => ({
     border: "2px solid #048694"
 }))
 
+
 export const CustomImg = styled('img')(({ theme }) => ({
     width: "100%",
     opacity: '0.7',

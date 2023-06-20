@@ -13,7 +13,7 @@ import {
   Typography,
   Box,
   InputBase,
-  Container, Skeleton
+  Container, Skeleton, MenuItem, TextField
 } from "@mui/material";
 
 import Pagination from "@mui/material/Pagination";
@@ -39,12 +39,14 @@ import { getAds } from 'redux/slices/adsSlice';
 import { CustomGlobalGrid } from "./Advertises.style";
 import CardSkeleton from "Components/Skeleton/CardSkeleton";
 import { themes } from "Theme/Themes";
+import { StateTunisia } from "core/constant/StateTunisia";
+import SelectState from "Components/SelectState/SelectState";
+import SelectCategory from "Components/SelectCategory/SelectCategory";
 
 export const Advertises: React.FC<Props> = ({
   mode,
   handleThemeChange,
 }) => {
-  const [showModal, setShowModal] = useState(false);
   const [key, setKey] = useState<string | null>("");
   const [value, setValue] = useState<Dayjs | null | string>(dayjs());
 
@@ -52,13 +54,14 @@ export const Advertises: React.FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [parameters, setParameters] = useState<parametersListing>({
     page: 1,
-    perPage: "12",
+    perPage: "8",
     orderBy: undefined,
     orderDirection: undefined,
     keyword: undefined,
     date: undefined,
     status: "2",
     state: undefined,
+    category: undefined,
   });
   const { data, error, isLoading, isSuccess, refetch, isFetching } =
     useGetAdsQuery(parameters);
@@ -79,9 +82,6 @@ export const Advertises: React.FC<Props> = ({
     });
   }, [debouncedSearchTerm]);
 
-  const handlePageChange = (event: any, page: number) => {
-    setParameters({ ...parameters, page });
-  };
 
   const handlePicker = (date: dayjs.Dayjs | null | string) => {
     setSelectedPicker(true);
@@ -99,30 +99,24 @@ export const Advertises: React.FC<Props> = ({
     refetch();
   }, []);
 
-  const handlePerPageChange = (perPage: any) => {
-    setParameters({ ...parameters, perPage });
-  };
-  const handleOrderByChange = (orderBy: any) => {
-    setParameters({ ...parameters, orderBy });
+
+  const handlePageChange = (event: any, page: number) => {
+    setParameters({ ...parameters, page });
   };
 
-  const handleOrderDirectionChange = (orderDirection: any) => {
-    setParameters({ ...parameters, orderDirection });
+  const handleFiltreChange = (param: string, value: any) => {
+    setParameters((prevParameters) => ({
+      ...prevParameters,
+      [param]: value,
+    }));
   };
-
-  const handleParameterChange = (param: string, value: any) => {
-    setParameters({ ...parameters, [param]: value });
-  };
-
-
-
   return (
 
-    <CustomGlobalGrid  style={{ backgroundColor: themes[mode].advertises.backgroundColor, padding:"20px" }} >
+    <CustomGlobalGrid style={{ backgroundColor: themes[mode].advertises.backgroundColor, padding: "20px" }} >
 
-      <Grid container justifyContent="space-between" alignItems="center" sx={{mb:10}}>
+      <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 10 }}>
         <Grid item xs={4} sm={4} md={4} lg={3}>
-          <Box display="flex" borderRadius="3px" style={{ border: "1px solid grey", marginLeft:'15px' }}>
+          <Box display="flex" borderRadius="3px" style={{ border: "1px solid grey", marginLeft: '15px' }}>
             <InputBase
               sx={{ ml: 2, flex: 1 }}
               placeholder="Search"
@@ -136,6 +130,7 @@ export const Advertises: React.FC<Props> = ({
             </IconButton>
           </Box>
         </Grid>
+
         {/* 
         <Grid item xs={12} sm={4} md={4}>
           <Box display="flex" justifyContent="flex-end" alignItems="flex-end">
@@ -154,20 +149,34 @@ export const Advertises: React.FC<Props> = ({
         </Grid> */}
 
         <Grid item xs={8} sm={8} md={8} lg={9} style={{ display: "flex", justifyContent: "flex-end" }}>
+          <SelectCategory
+            defaultValue={parameters.category}
+            value={parameters.category}
+            onChange={(value) => handleFiltreChange("category", value)}
+          />
+
+          <SelectState
+            defaultValue={parameters.state}
+            value={parameters.state}
+            onChange={(value) => handleFiltreChange("state", value)}
+          />
+
           <PerPageSelect
             defaultValue={parameters.perPage}
             value={parameters.perPage}
-            onChange={handlePerPageChange}
+            onChange={(value) => handleFiltreChange("perPage", value)}
           />
+
           <OrderBy
             defaultValue={parameters.orderBy}
             value={parameters.orderBy}
-            onChange={handleOrderByChange}
+            onChange={(value) => handleFiltreChange("orderBy", value)}
           />
+
           <OrderDirection
             defaultValue={parameters.orderDirection}
             value={parameters.orderDirection}
-            onChange={handleOrderDirectionChange}
+            onChange={(value) => handleFiltreChange("orderDirection", value)}
           />
         </Grid>
       </Grid>
@@ -178,9 +187,9 @@ export const Advertises: React.FC<Props> = ({
 
         <Container>
           { }
-
           <Grid container spacing={1}>
             <Grid container spacing={2}>
+
               {data?.data.map((ad: Ad) => (
                 <Grid item key={ad.id} xs={6} sm={6} md={4} lg={3}>
                   {isFetching ? <CardSkeleton />

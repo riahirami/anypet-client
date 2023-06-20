@@ -53,7 +53,7 @@ export const CategoryListCollapseComponent: React.FC<Props> = ({
             <Grid >
 
                 <ListItemButton onClick={handleClick}>
-                    <ListItemIcon>
+                    <ListItemIcon >
                         <ListIcon />
                     </ListItemIcon>
                     <ListItemText primary="Categories" />

@@ -7,10 +7,10 @@ export const StyledHeaderCaroussel = styled(Grid)({
 });
 export const GridCarousel = styled(Grid)({
     width: "90vw", 
-    height: "500px", 
+    height: "600px", 
     minWidth: "690px", 
     margin: "auto", 
-    marginBottom: "60px", 
+    marginBottom: "90px", 
     paddingTop: "120px",
 
 });

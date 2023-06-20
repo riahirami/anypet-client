@@ -11,12 +11,10 @@ export const  Footer: React.FC<Props>= ({
     <Box
       sx={{
         minWidth:"692px",
+        width: "100vw",
         height: "auto",
-        backgroundColor: "aquamarine",
         paddingTop: "1rem",
-        // paddingBottom: "1rem",
-        marginTop: 'auto', // Pushes the footer to the bottom instead of auto
-
+        marginTop: 'auto',
       }}
       style={{ backgroundColor: themes[mode].footer.backgroundColor}} 
     >

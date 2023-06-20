@@ -16,12 +16,13 @@ const Home: React.FC<Props> = ({
     <>
       <Grid container spacing={4}>
         <HeaderCaroussel />
-        <Grid item xs={12} sm={12} md={2} lg={2} style={{ minHeight: "auto", marginTop:"32px", backgroundColor: themes[mode].sideBar.backgroundColor }}>
-          {/* <Categories mode={mode} handleThemeChange={handleThemeChange} /> */}
+        {/* <Grid item xs={12} sm={12} md={2} lg={2} style={{ minHeight: "auto", marginTop:"32px", backgroundColor: themes[mode].sideBar.backgroundColor }}>
           <CategoryListCollapseComponent mode={mode} handleThemeChange={handleThemeChange} />
           <StateListCollapseComponent mode={mode} handleThemeChange={handleThemeChange} />
-        </Grid>
-        <Grid item xs={12} sm={12} md={10} lg={10}>
+        </Grid> */}
+
+          {/* <Categories mode={mode} handleThemeChange={handleThemeChange} /> */}
+        <Grid item xs={12} sm={12} md={12} lg={12}>
           <Advertises mode={mode} handleThemeChange={handleThemeChange} />
         </Grid>
       </Grid>

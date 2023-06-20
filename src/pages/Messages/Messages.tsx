@@ -26,8 +26,11 @@ import {
   CustomBox
 } from "./Messages.style"
 import { pusherConfig } from "core/constant/Pusher"
+import { Props } from "Components/AppBar/Appbar.props";
+import { themes } from "Theme/Themes";
 
-const Messages = () => {
+const Messages: React.FC<Props> = ({ mode,
+  handleThemeChange }) => {
   const { id } = useParams();
   const currentUser = getCurrentUser();
 
@@ -41,9 +44,21 @@ const Messages = () => {
     refetch,
   } = useGetConversationQuery(id);
 
+
+  console.log({ConversationData})
+
   const [allMessages, setAllMessages] = useState<Message[]>([]);
 
   useEffect(() => {
+    setAllMessages([]);
+    if (isSuccess && ConversationData) {
+
+      setAllMessages((prevMessages) => [...prevMessages, ...ConversationData]);
+    }
+  }, [id]);
+
+  useEffect(() => {
+
     if (isSuccess && ConversationData) {
       setAllMessages((prevMessages) => [...prevMessages, ...ConversationData]);
     }
@@ -81,22 +96,22 @@ const Messages = () => {
   };
 
   return (
-    <Grid style={{ width: "100vw" }}>
+    <Grid style={{ backgroundColor: themes[mode].messages.backgroundColor, borderRadius:'10px' }}>
       {isLoading && <Spinner />}
-      <Button variant="text">
+      {/* <Button variant="text">
         <CustomLink to={"/user/conversations/"}>
           <ArrowBackIosOutlinedIcon />
         </CustomLink>
-      </Button>
+      </Button> */}
       <CustomGlobalGrid >
         <Box>
           {isSuccess &&
             allMessages?.map((message: Message) => (
               <CustomGrid message={message} currentUser={currentUser}>
                 {message?.message?.length > 0 && (
-                  <>
+                   <CustomLink to={"/user/details/" + message?.sender?.id}>
                     <Avatar src={message?.sender_avatar || message?.sender?.avatar} sx={{ width: 24, height: 24 }} />
-                  </>
+                   </CustomLink>
                 )}
                 <CustomBox message={message} currentUser={currentUser}>
                   <Typography variant="body1">{message?.message}</Typography>

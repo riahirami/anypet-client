@@ -228,7 +228,26 @@ function AdCard({ adData, user, mode,
           <Typography variant="body1" color="text.secondary" noWrap>
             {adData.description}
           </Typography>
-
+          {(currentUser?.user?.id === adData.user_id ) && (
+              <Typography
+                color="textSecondary"
+                noWrap
+                variant="body2"
+                gutterBottom
+                style={{
+                  color:
+                    adData.status == "0"
+                      ? "orange"
+                      : adData.status == "1"
+                        ? "red"
+                        : adData.status == "2"
+                          ? "green"
+                          : "inherit",
+                }}
+              >
+                Status:  {statusToString(adData.status)}
+              </Typography>
+            )}
        
         </CardContent>
         <CardActions disableSpacing>

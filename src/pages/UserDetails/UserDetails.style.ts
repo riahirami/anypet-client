@@ -4,6 +4,13 @@ import {
     Typography
 } from '@mui/material'
 
+export const CustomGlobalGrid = styled(Grid)({
+    paddingTop:"100px",
+    paddingRight:"10px", 
+    paddingLeft:"10px",
+    // height:"100%",
+ });
+
 export const CustomGridAvatarName = styled(Grid)(({ theme }) => ({
     display: "flex", alignItems: "center", marginBottom: "10px", marginLeft: "10px" 
 }))

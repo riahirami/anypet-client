@@ -27,15 +27,27 @@ import StateListCollapseComponent from "Components/ListMenuCollapse/StateListCol
 import { CategoryListCollapseComponent } from "Components/ListMenuCollapse/CategoryListCollapseComponent";
 import AdsByState from "pages/Advertises/AdsByState";
 import Home from "pages/Home";
+import Dashboard from "pages/Dashboard/Dashboard/Dashboard";
+import MyAdvertises from "pages/Dashboard/Advertises/MyAdvertises";
+import Update from "pages/Dashboard/Profile/Update";
+import UserReservations from "pages/Dashboard/Reservations/UserReservations";
+import { PATHS } from "routes/Path";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
+import { Playground } from "Layout/SideBar/SideBar";
+import { ProSidebarProvider } from "Components/SidebarSrc/ProSidebarProvider";
+import AddAdvertise from "pages/Dashboard/Advertises/AddAdvertise";
+import AdUpdate from "pages/Dashboard/Advertises/AdUpdate";
 
 
 export const ContainerComponent: React.FC<Props> = ({
     mode,
     handleThemeChange,
 }) => {
+    const authUser = useSelector((state: RootState) => state.auth);
 
     return (
-        <Grid container spacing={1} style={{minWidth:"700px", minHeight: "100vh", backgroundColor: themes[mode].container.backgroundColor }}>
+        <Grid container spacing={1} style={{ minWidth: "700px", minHeight: "100vh", backgroundColor: themes[mode].container.backgroundColor }}>
 
             <Grid>
                 <Routes>
@@ -44,13 +56,12 @@ export const ContainerComponent: React.FC<Props> = ({
 
                         <Route path="/signin" element={<Signin />} />
                         <Route path="/home" element={
-                          <Home  mode={mode} handleThemeChange={handleThemeChange} />
+                            <Home mode={mode} handleThemeChange={handleThemeChange} />
                         } />
                         <Route
                             path="partner/:id"
                             element={
                                 <Grid item xs={12} sm={12} md={12} lg={12}>
-
                                     <ShowPartner />
                                 </Grid>} />
                         <Route path="/advertise/category/:id" element={<AdsByCategory mode={mode} handleThemeChange={handleThemeChange} />} />
@@ -65,10 +76,14 @@ export const ContainerComponent: React.FC<Props> = ({
                             element={<UserDetails userId={""} />} />
                         <Route
                             path="user/messages/:id"
-                            element={<Messages />} />
+                            element={<Conversations handleThemeChange={handleThemeChange} mode={mode}  >
+                            <Messages handleThemeChange={handleThemeChange} mode={mode}  />
+                        </Conversations>} />
                         <Route
                             path="user/conversations/"
-                            element={<Conversations />} />
+                            element={<Conversations handleThemeChange={handleThemeChange} mode={mode}  >
+                                <Messages handleThemeChange={handleThemeChange} mode={mode}  />
+                            </Conversations>} />
                         <Route
                             path="/contact-us"
                             element={<ContactUs />} />
@@ -78,6 +93,53 @@ export const ContainerComponent: React.FC<Props> = ({
                         <Route
                             path="/myfavorites"
                             element={<ListFavorit mode={mode} handleThemeChange={handleThemeChange} />} />
+
+
+
+                        <Route
+                            path="/profile"
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                        <Update />
+                                    </Playground>
+                                </ProSidebarProvider>} />
+                        <Route
+                            path={PATHS.AddAdvertise}
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                        <AddAdvertise mode={mode} handleThemeChange={handleThemeChange} />
+                                    </Playground>
+                                </ProSidebarProvider>
+                            } />
+                        <Route
+                            path={"myadvertises/" + authUser?.user?.id}
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                        <MyAdvertises mode={mode} handleThemeChange={handleThemeChange} />
+                                    </Playground>
+                                </ProSidebarProvider>
+                            } />
+                        <Route
+                            path={PATHS.MYRESERVATIONS}
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                        <UserReservations mode={mode} handleThemeChange={handleThemeChange} />
+                                    </Playground>
+                                </ProSidebarProvider>
+                            } />
+ <Route
+                            path={PATHS.updateAdvertise}
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                        <AdUpdate mode={mode} handleThemeChange={handleThemeChange} />
+                                    </Playground>
+                                </ProSidebarProvider>
+                            } />
                     </Route>
                 </Routes>
             </Grid>
