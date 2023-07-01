@@ -16,7 +16,7 @@ export const  Footer: React.FC<Props>= ({
         paddingTop: "1rem",
         marginTop: 'auto',
       }}
-      style={{ backgroundColor: themes[mode].footer.backgroundColor}} 
+      style={{ backgroundColor: themes[mode].footer.backgroundColor,backgroundImage: "url('https://www.shutterstock.com/image-vector/seamless-patterntraces-paws-catsdogs-household-260nw-1132215506.jpg')", backgroundBlendMode: "multiply"}} 
     >
       <Container >
         <Grid container direction="column" alignItems="center">

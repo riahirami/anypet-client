@@ -3,7 +3,7 @@ export interface parametersListing{
     date: string | undefined;
     page: number;
     perPage: string;
-    status: string | undefined;
+    status: string[] | undefined;
     state: string | undefined;
     category: string | undefined;
     orderBy: string | undefined;

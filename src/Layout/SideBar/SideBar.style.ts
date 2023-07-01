@@ -56,8 +56,8 @@ export const themes = {
     },
     button:{
       "&:hover": {
-        backgroundColor: them["dark"].topbar.color,
-        color:  them["light"].sideBar.color,
+        backgroundColor: themes["dark"].menu.menuContent,
+        color:  themes["light"].menu.menuContent,
         textDecoration:"none",
       },
     },

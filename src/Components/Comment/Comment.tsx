@@ -99,6 +99,7 @@ export const Comment: React.FC <Props>= ({
       description: comment,
     });
     setComment("");
+
   };
 
   return (
@@ -108,12 +109,12 @@ export const Comment: React.FC <Props>= ({
       {isSuccessDeleteComment && (
                 <AlertComponent
                     title={message.COMMENTDELETED}
-                    severity="success"
+                    severity="warning"
                 />
             )}
-      <StyledCommentPaper  style={{ backgroundColor: themes[mode].comment.backgroundColor, minWidth:"700px",width:"100vw" }} >
+      <StyledCommentPaper  style={{ backgroundColor: themes[mode].comment.backgroundColor, minWidth:"700px",width:"95vw" }} >
         <Typography>Comments :</Typography>
-        <Grid container justifyContent="center" p={4} >
+        <Grid container justifyContent="center" p={2} >
           <Grid item xs={12} sm={11} md={12} lg={12}>
             <TextField
               multiline
@@ -161,7 +162,7 @@ export const Comment: React.FC <Props>= ({
                       {comment.description}
                     </Typography>
                   </Box>
-                  {currentUser.user.id == comment.user_id && (
+                  {(currentUser.user.id == comment.user_id || currentUser.user.id == comment.ad.user_id ) && (
                     <IconButton
                       color="error"
                       sx={{
@@ -204,7 +205,7 @@ export const Comment: React.FC <Props>= ({
                         <StyledCommentDivider variant="fullWidth" />
                       </Grid>
 
-                      {(currentUser.user.id == reply.user_id  )&& (
+                      {(currentUser.user.id == reply.user_id || currentUser.user.id == reply.ad.user_id   )&& (
                         <IconButton
                           color="error"
                           sx={{

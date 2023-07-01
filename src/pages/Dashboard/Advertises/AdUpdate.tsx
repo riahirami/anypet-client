@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Grid, MenuItem, TextField } from "@mui/material";
+import { Grid, MenuItem, TextField,Alert } from "@mui/material";
 import CustomModal from "../../../Components/Modal/CustomModal";
 import Spinner from "../../../Components/Spinner/spinner";
 import { useGetAdByIdQuery, useUpdateAdMutation } from "../../../redux/api/adsApi";
@@ -113,7 +113,8 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
   return (
     <Grid sx={{mt:15}} style={{width:"80vw",position:"absolute"}}>
       {isLoading && <Spinner />}
-   
+      <Alert severity="warning">If you update your advertise, it should be approuved by the adminsitrator !</Alert>
+
    {succesUpdate && (
         <AlertComponent title={message.ADVERRTISESEDITED} severity="success" />
       )}

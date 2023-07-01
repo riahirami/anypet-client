@@ -8,12 +8,19 @@ function generateQueryParams(obj: { [key: string]: any }): string {
 
   for (const key in obj) {
     if (obj.hasOwnProperty(key) && obj[key] !== undefined) {
-      params.append(key, obj[key]);
+      if (key === "status" && Array.isArray(obj[key])) {
+        obj[key].forEach((status: string) => {
+          params.append(`${key}[]`, status);
+        });
+      } else {
+        params.set(key, obj[key]);
+      }
     }
   }
 
   return params.toString();
 }
+
 export const adsApi = createApi({
   reducerPath: "adsApi",
   baseQuery: fetchBaseQuery(baseQueryConfig),
@@ -26,7 +33,7 @@ export const adsApi = createApi({
         date: string | undefined;
         page: number;
         perPage: string;
-        status: string | undefined;
+        status: string[] | undefined;
         state: string | undefined;
       }
     >({
@@ -121,27 +128,27 @@ export const adsApi = createApi({
         return {
           url: endpoints.Ads + `${id}`,
           method: "get",
-          providesTags: ["Ad"],
         };
       },
+      providesTags: ["Ad"],
     }),
     getMyAds: builder.query<any, string | number | undefined>({
       query: (id) => {
         return {
           url: endpoints.MYADS + id,
           method: "get",
-          providesTags: ["Ad"],
         };
       },
+      providesTags: ["Ad"],
     }),
     getAdsByCategory: builder.query({
       query: (id: any) => {
         return {
           url: endpoints.AdsByCategory + `${id}`,
           method: "get",
-          providesTags: ["Ad"],
         };
       },
+      providesTags: ["Ad"],
     }),
     changeStatusAds: builder.mutation<
       Ad,
@@ -157,7 +164,20 @@ export const adsApi = createApi({
       }),
       invalidatesTags: ["Ad"],
     }),
+    markAsAdoptedOrReserved: builder.mutation<
+      Ad,
+      {
+        id: string | number | undefined;
+        status: string | number | undefined;
+      }
+    >({
+      query: (parameters) => ({
+        url: endpoints.MARKAS + "?" + generateQueryParams(parameters),
+        method: "get",
 
+      }),
+      invalidatesTags: ["Ad"],
+    }),
     getAdsStats: builder.query({
       query: (column: any) => {
         return {
@@ -165,15 +185,16 @@ export const adsApi = createApi({
           method: "get",
         };
       },
+      providesTags: ["Ad"],
     }),
     getAdsByStatus: builder.query({
       query: (status: string) => {
         return {
           url: endpoints.AdsByStatus + `${status}`,
           method: "get",
-          providesTags: ["Ad"],
         };
       },
+      providesTags: ["Ad"],
     }),
     getCountAdsPerDate: builder.query({
       query: () => {
@@ -183,6 +204,7 @@ export const adsApi = createApi({
           providesTags: ["Ad"],
         };
       },
+      providesTags: ["Ad"],
     }),
     setFavorite: builder.mutation({
       query: (id) => {
@@ -198,9 +220,9 @@ export const adsApi = createApi({
         return {
           url: endpoints.LISTFAVORITE + id,
           method: "get",
-          providesTags: ["Ad"],
         };
       },
+      providesTags: ["Ad"],
     }),
   }),
 });
@@ -219,5 +241,6 @@ export const {
   useListFavoriteQuery,
   useSetFavoriteMutation,
   useGetMediaByIdQuery,
-  useGetMyAdsQuery
+  useGetMyAdsQuery,
+  useMarkAsAdoptedOrReservedMutation
 } = adsApi;

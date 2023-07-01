@@ -14,24 +14,46 @@ import { message } from "core/constant/message"
 import { SmallAvatar, CustomReservationCard, CardActionsCustom, GridReservation } from "./Reservation.style"
 import { Props } from 'Components/AppBar/Appbar.props';
 import { themes } from 'Theme/Themes';
+import { useMarkAsAdoptedOrReservedMutation } from 'redux/api/adsApi';
+import { StatusOption } from 'core/enums/status';
 
 
-
-
-
-const UserReservations : React.FC<Props> = ({ mode,
+const UserReservations: React.FC<Props> = ({ mode,
     handleThemeChange }) => {
-  
-    const { data:MyReservation, isLoading, isSuccess } = useGetMyReservationsQuery();
+
+    const { data: MyReservation, isLoading, isSuccess } = useGetMyReservationsQuery();
     const [responseOnReservation, { isLoading: loadingResponse, isSuccess: respondSuccess }] = useResponseOnReservationsMutation();
     const [value, setValue] = React.useState("1");
 
+    const [
+        markAsReservedOrAdopted,
+        {
+            data: ReservedOrAdoptedStatus,
+            isLoading: loadingReservedOrAdoptedStatus,
+            isSuccess: successReservedOrAdoptedStatus,
+            isError: errorReservedOrAdoptedStatus,
+        },
+    ] = useMarkAsAdoptedOrReservedMutation()
 
+    const handleMarkAsReservedOrAdopted = async (
+        adId: string | number | undefined,
+        status: StatusOption
+    ) => {
+        markAsReservedOrAdopted({ id: adId, status })
+            .unwrap()
+            .then(() => {
+                // refetch();
+            });
+    };
     const responseOnReservationHandler = async (reservationId: string | number, status: number) => {
         await responseOnReservation({
             id: reservationId,
             status: status
         })
+        const reservation =  MyReservation?.data?.received?.find(reservation => reservation.id === reservationId)
+        if (status == 2) {
+            await handleMarkAsReservedOrAdopted(reservation?.ad_id, StatusOption.Reserved);
+        }
 
     }
 
@@ -39,7 +61,7 @@ const UserReservations : React.FC<Props> = ({ mode,
         setValue(newValue);
     };
     return (
-        <Grid style={{marginTop:"80px"}}>
+        <Grid style={{ marginTop: "80px" }}>
             {respondSuccess && (
                 <AlertComponent
                     title={message.RESERVATIONUPDATED}
@@ -55,11 +77,11 @@ const UserReservations : React.FC<Props> = ({ mode,
                     </TabList>
                 </Box>
                 <TabPanel value="1">
-                <Grid container spacing={3} style={{width:"100%"}}>
+                    <Grid container spacing={3} style={{ width: "100%" }}>
                         {MyReservation?.data?.received?.map((item) => (
                             <Grid item xs={12} sm={12} md={4} lg={3} key={item?.id}>
-                            <CustomReservationCard  style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color }}  >
-                                <Grid style={{ display: "flex", justifyContent: "center" }}>
+                                <CustomReservationCard style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color }}  >
+                                    <Grid style={{ display: "flex", justifyContent: "center" }}>
 
                                         <Badge
                                             overlap="circular"
@@ -125,12 +147,12 @@ const UserReservations : React.FC<Props> = ({ mode,
                 </TabPanel>
 
                 <TabPanel value="2">
-                    <Grid container spacing={3} style={{width:"100%"}}>
-                        
+                    <Grid container spacing={3} style={{ width: "100%" }}>
+
                         {MyReservation?.data?.send?.map((item) => (
                             <Grid item xs={12} sm={12} md={4} lg={3} key={item?.id}>
-                            <CustomReservationCard  style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color }}  >
-                                <Grid style={{ display: "flex", justifyContent: "center" }}>
+                                <CustomReservationCard style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color }}  >
+                                    <Grid style={{ display: "flex", justifyContent: "center" }}>
 
                                         <Badge
                                             overlap="circular"
@@ -149,7 +171,7 @@ const UserReservations : React.FC<Props> = ({ mode,
 
                                     <CardContent>
                                         <CustomLink to={"/user/details/" + item?.receiver_id}>
-                                            <Typography gutterBottom variant="h5" component="div" noWrap> 
+                                            <Typography gutterBottom variant="h5" component="div" noWrap>
                                                 To :  {item?.receiver?.firstname} {item?.receiver?.lastname}
                                             </Typography>
                                         </CustomLink>

@@ -1,6 +1,6 @@
 import { Grid, Typography, Avatar } from "@mui/material";
 import { formaDateTime } from "core/services/helpers";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetListConversationsQuery } from "redux/api/userApi";
 import { Message } from "core/models/Message.model";
 import { getCurrentUser } from "core/utils/functionHelpers";
@@ -21,10 +21,11 @@ const Conversations: React.FC<Props> = ({ mode,
 
   const [activeConversationId, setActiveConversationId] = useState<string | number | undefined |null>(id);
 
+
   return (
     <>
       {isLoading && <Spinner />}
-      <CustomGlobalGrid container >
+    <CustomGlobalGrid container >
         <Grid item xs={12} sm={12} md={4} lg={4}>
 
           {data &&

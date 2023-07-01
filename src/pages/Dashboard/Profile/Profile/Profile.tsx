@@ -134,7 +134,7 @@ function Profile() {
                 <Typography>Last name: {lastname}</Typography>
               </Grid>
               <Grid item>
-                <Typography>email: {email}</Typography>
+                <Typography>Email: {email}</Typography>
               </Grid>
               <Grid item>
                 <Typography>Phone: {phone}</Typography>

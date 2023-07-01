@@ -29,6 +29,7 @@ import { RootState } from 'redux/store';
 import { logout } from 'redux/slices/authSlice';
 import { useLogoutUserMutation } from 'redux/api/authApi';
 import { useState } from 'react';
+import {Notif} from "pages/Notif/Notif"
 
 export const ResponsiveAppBar: React.FC<Props> = ({
   mode,
@@ -99,10 +100,11 @@ export const ResponsiveAppBar: React.FC<Props> = ({
   };
 
   return (
-    <AppBar position="fixed" style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color }} >
+    <AppBar position="fixed" style={{ backgroundColor: themes[mode].topbar.backgroundColor, color: themes[mode].topbar.color,
+      backgroundImage: "url('https://www.shutterstock.com/image-vector/seamless-patterntraces-paws-catsdogs-household-260nw-1132215506.jpg')", backgroundBlendMode: "multiply" }} >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <PetsIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1,color: themes[mode].vedette.backgroundColor  }} />
           <Typography
             variant="h6"
             noWrap
@@ -114,8 +116,7 @@ export const ResponsiveAppBar: React.FC<Props> = ({
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              textDecoration: 'none',color: themes[mode].vedette.backgroundColor 
             }}
           >
             Anypet
@@ -180,7 +181,9 @@ export const ResponsiveAppBar: React.FC<Props> = ({
                   onClick={handleCloseDrawer}
                 >
                   <ListItemText>
-                    <Notifications />
+                    {/* <Notifications /> */}
+
+                    <Notif />
                   </ListItemText>
                 </ListItem>
                 <ListItem
@@ -224,8 +227,8 @@ export const ResponsiveAppBar: React.FC<Props> = ({
           </Box>
 
 
-          <PetsIcon sx={{ display: { xs: 'none', md: 'none' }, mr: 1 }} />
-          <Typography
+          <PetsIcon sx={{ display: { xs: 'none', md: 'none' }, mr: 1,color: themes[mode].vedette.backgroundColor }}   />
+          <Typography style={{color: themes[mode].vedette.backgroundColor }}
             variant="h5"
             noWrap
             component="a"
@@ -237,13 +240,13 @@ export const ResponsiveAppBar: React.FC<Props> = ({
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: themes[mode].vedette.backgroundColor ,
               textDecoration: 'none',
             }}
           >
             AnyPet
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex'}}} >
             {pages.map((page) => (
               <CustomLink to={page.path} >
               <Button
@@ -275,7 +278,8 @@ export const ResponsiveAppBar: React.FC<Props> = ({
 
             <ConversationsComponent />
 
-            <Notifications />
+            {/* <Notifications /> */}
+            <Notif />
 
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

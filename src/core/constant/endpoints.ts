@@ -15,6 +15,7 @@ export const endpoints = {
 
     AdsGlobal:"ads",
     Ads:"ads/",
+    MARKAS:"ads/mark-as",
     MYADS:"ads/myads/",
     ADMEDIA:"ads/media/",
     AdsByCategory:"ads/category/",
@@ -34,6 +35,8 @@ export const endpoints = {
     USERLISTNOTIFICATIONS: "users/notifications/",
     USERLISTUNREADNOTIFICATIONS: "users/notifications/unread/",
     MARKAllASREADNOTIFICATIONS: "users/notifications/readall",
+    UNREADMESSAGES: "users/messages/unread/",
+    MARKONEASREADNOTIFICATIONS: "users/notifications/readone/",
     MESSAGES: "users/message/",
     CONTACTUS: "users/contact-us/",
     CONVERSATION: "users/conversation/",

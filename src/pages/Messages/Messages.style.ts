@@ -35,6 +35,7 @@ export const CustomGrid = styled(Grid)<CustomGridProps>(({ theme, message, curre
     display: 'flex',
     flexDirection: 'column',
     alignItems: message.receiver_id === currentUser?.user?.id ? 'flex-start' : 'flex-end',
+    overflowY: 'auto'
 }));
 
 export const CustomBox = styled(Box)<CustomGridProps>(({ theme, message, currentUser }) => ({

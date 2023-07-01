@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 
 import AdCard from "../../Components/Card/AdsCard";
-import { formaDateTime, getState } from "core/services/helpers";
+import { formaDateTime, getState, statusToString } from "core/services/helpers";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
@@ -58,7 +58,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { settings } from "./Slider.settings";
 import { themes } from "Theme/Themes";
 
-
+import { setFavorite } from "redux/slices/favoriteSlice"
 
 const AdDetails: React.FC<Props> = ({ mode,
   handleThemeChange }) => {
@@ -70,17 +70,18 @@ const AdDetails: React.FC<Props> = ({ mode,
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [setFavorit, { data: datasetFavoris, isSuccess: successFavoris }] =
+  const [setFavoritMutation, { data: datasetFavoris, isSuccess: successFavoris }] =
     useSetFavoriteMutation();
 
   const user = getCurrentUser();
 
-  const { data, refetch } = useListFavoriteQuery(user?.user?.id);
-  const [makeReservation, {data:ReservationData, isSuccess: successReservation, isLoading: reservationLoading, isError }] = useCreateReservationsMutation();
+  // const { data, refetch } = useListFavoriteQuery(user?.user?.id);
+  const [makeReservation, { data: ReservationData, isSuccess: successReservation, isLoading: reservationLoading, isError }] = useCreateReservationsMutation();
 
   const [isFavorite, setIsFavorit] = useState<boolean>();
 
   const categories = useSelector(selectCategory);
+
 
   const listFavorites = useSelector((state: any) => state.favorite.favoriteList);
 
@@ -89,35 +90,34 @@ const AdDetails: React.FC<Props> = ({ mode,
     return category?.title;
   };
 
-
   useEffect(() => {
     setAdDetails(adData);
   }, [adData]);
 
 
-  // TODO optimise this function or replace it by a slice
   const checkIsFavorit = async (id: any) => {
-    const favoris = await data?.data.find((fav: any) => fav.ad_id == id);
-    if (favoris) {
-      setIsFavorit(true);
-    } else {
-      setIsFavorit(false);
+    if (listFavorites) {
+      const favoris = await listFavorites?.data.find((fav: any) => fav.ad_id == id);
+      favoris ? setIsFavorit(true) : setIsFavorit(false);
     }
+  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (successFavoris && adData) {
+      dispatch(setFavorite(adData)); // Dispatch the setFavorite action
+    }
+  }, [successFavoris, adData, dispatch]);
+  const setfavoritHandle = async (id: any) => {
+    await setFavoritMutation(id);
+    setIsFavorit(!isFavorite);
+
+    dispatch(setFavorite(adData)); // Dispatch the setFavorite action
   };
 
   useEffect(() => {
-    checkIsFavorit(adData?.id);
-  }, [isLoading]);
-
-  const dispatch = useDispatch();
-
-  const setfavorit = async (id: any) => {
-    await setFavorit(id);
-    await checkIsFavorit(id);
-    // dispatch(toggleFavorite(id));
-
-    refetch();
-  };
+    if (listFavorites)
+      checkIsFavorit(id);
+  }, [setFavoritMutation, successFavoris]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -163,7 +163,7 @@ const AdDetails: React.FC<Props> = ({ mode,
       reservation_date: dateValue + " " + timeValue,
     });
   }
-  
+
   return (
     <CustomGlobalGrid>
       {successReservation && (
@@ -172,7 +172,7 @@ const AdDetails: React.FC<Props> = ({ mode,
           severity="success"
         />
       )}
-              {isError && <AlertComponent title={CONSTMessage.ERRORRESERVATIONSEND} severity={"error"} />}
+      {isError && <AlertComponent title={CONSTMessage.ERRORRESERVATIONSEND} severity={"error"} />}
       <Dialog
         open={open}
         keepMounted
@@ -244,7 +244,7 @@ const AdDetails: React.FC<Props> = ({ mode,
           >
             <IconButton
               aria-label="add to favorites"
-              onClick={() => setfavorit(adData.id)}
+              onClick={() => setfavoritHandle(adData.id)}
               sx={{ marginLeft: "auto" }}
             >
               {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteIcon />}
@@ -295,9 +295,16 @@ const AdDetails: React.FC<Props> = ({ mode,
 
           {user?.user?.id !== adData?.user_id &&
             <>
-              <Grid item alignItems={"flex-end"}>
+              {(adData?.status == 4 || adData?.status == 3 ) ? <Grid item alignItems={"flex-end"}>
+              <Typography  sx={{backgroundColor:themes[mode].vedette.backgroundColor}} variant="h4">{statusToString(adData?.status)}</Typography>
+              </Grid> 
+                :
+                <Grid item alignItems={"flex-end"}>
                 <Button onClick={handleClickOpen} variant="contained">reservation</Button>
-              </Grid><Grid item alignItems={"flex-end"}>
+              </Grid>
+                
+              }
+              <Grid item alignItems={"flex-end"}>
                 <CustomLink to={"/user/messages/" + adData?.user?.id}>
                   <Button variant="contained">send message</Button>
                 </CustomLink>

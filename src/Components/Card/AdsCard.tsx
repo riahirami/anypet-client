@@ -21,7 +21,7 @@ import { formaDateTime, statusToString } from "../../core/services/helpers";
 import { Ad } from "../../core/models/ad.model";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import useDeleteAd from "CustomHooks/useDeleteAd";
-import { useChangeStatusAdsMutation, useListFavoriteQuery, useSetFavoriteMutation } from "redux/api/adsApi";
+import { useChangeStatusAdsMutation, useListFavoriteQuery, useMarkAsAdoptedOrReservedMutation, useSetFavoriteMutation } from "redux/api/adsApi";
 import { StatusOption } from "core/enums/status";
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import CustomLink from "Components/CustomLink/CustomLink"
@@ -38,16 +38,12 @@ import { selectCategory } from "redux/slices/categorySlice";
 function AdCard({ adData, user, mode,
   handleThemeChange, }: AdCardProps) {
 
-  const dispatch = useDispatch();
-
-  const [setFavorit, { data: datasetFavoris, isSuccess: successFavoris }] =
+  const [setFavoritMutation, { data: datasetFavoris, isSuccess: successFavoris }] =
     useSetFavoriteMutation();
 
   const [isFavorite, setIsFavorite] = useState<boolean>();
 
-
   const currentUser = useSelector((state: RootState) => state.auth);
-
   const id = currentUser?.user?.id
 
   const { data: dataFavorite, isSuccess: successFavorite, refetch: refetchFavortie } = useListFavoriteQuery(id);
@@ -58,6 +54,15 @@ function AdCard({ adData, user, mode,
 
   const [menuAnchor, setMenuAnchor] = useState(null);
 
+  const [
+    markAsReservedOrAdopted,
+    {
+      data: ReservedOrAdoptedStatus,
+      isLoading: loadingReservedOrAdoptedStatus,
+      isSuccess: successReservedOrAdoptedStatus,
+      isError: errorReservedOrAdoptedStatus,
+    },
+  ] = useMarkAsAdoptedOrReservedMutation()
 
   const [
     changeStatus,
@@ -80,6 +85,16 @@ function AdCard({ adData, user, mode,
     // setStatusParams({ id: adId, status });
   };
 
+  const handleMarkAsReservedOrAdopted = async (
+    adId: string | number | undefined,
+    status: StatusOption
+  ) => {
+    markAsReservedOrAdopted({ id: adId, status })
+      .unwrap()
+      .then(() => {
+        // refetch();
+      });
+  };
 
   const handleMenuOpen = (event: any) => {
     setMenuAnchor(event.currentTarget);
@@ -101,19 +116,31 @@ function AdCard({ adData, user, mode,
   };
 
   const categories = useSelector(selectCategory);
-  const listFavorites = useSelector((state: any) => state.favorite.favoriteList);
+  // const listFavorites = useSelector((state: any) => state.favorite.favoriteList);
 
   useEffect(() => {
-    if (successFavorite) {
+    if (successFavoris) {
       refetchFavortie();
     }
-  }, [successFavorite]);
+  }, [successFavoris]);
+
+  const checkIsFavorit = async (id: any) => {
+    if (dataFavorite) {
+      const isFavorite = dataFavorite?.data?.find((fav: any) => fav.ad_id === id);
+      isFavorite ? setIsFavorite(true) : setIsFavorite(false);
+    }
+  }
+
+  const setfavoritHandle = async (id: any) => {
+    await setFavoritMutation(id);
+    setIsFavorite(!isFavorite);
+  };
 
   useEffect(() => {
     if (adData)
       checkIsFavorit(adData.id);
 
-  }, []);
+  }, [setFavoritMutation, dataFavorite, successFavorite]);
 
 
   const changeIdtoCategory = (id: string) => {
@@ -121,26 +148,24 @@ function AdCard({ adData, user, mode,
     return category?.title;
   };
 
-  const checkIsFavorit = async (id: any) => {
-    if (listFavorites) {
-      const isFavorite = listFavorites.data?.find((fav: any) => fav.ad_id === id);
-      if (isFavorite)
-        setIsFavorite(true);
-      else
-        setIsFavorite(false);
-    }
 
-
-  }
-
-  const setfavorit = async (id: any) => {
-    await setFavorit(id);
-    setIsFavorite(!isFavorite);
-  };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{
+      flexGrow: 1, '&:hover': {
+        boxShadow: "0px -1px 15px -1px rgba(0,0,0,0.89)", transform: 'scale(1.03)',
+        transition: `all 1500ms 2px`,
+      }
+    }}>
+
       {successChangeStatus && (
+        <AlertComponent
+          title={message.ADVERTISESTATUSCHANGED}
+          severity="success"
+        />
+      )}
+
+      {successReservedOrAdoptedStatus && (
         <AlertComponent
           title={message.ADVERTISESTATUSCHANGED}
           severity="success"
@@ -152,7 +177,7 @@ function AdCard({ adData, user, mode,
         maxWidth: "620px",
         margin: "auto",
         display: "block",
-        // width: "65vh",
+        // width: "100%",
       }}
       >
         <CardHeader
@@ -177,10 +202,22 @@ function AdCard({ adData, user, mode,
                       open={Boolean(menuAnchor)}
                       onClose={handleMenuClose}
                     >
-                      <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                      {(adData?.status == StatusOption.Validated) ?
+                        <MenuItem onClick={() => handleMarkAsReservedOrAdopted(adData?.id, StatusOption.Adopted)}>Adopted</MenuItem>
+                        :
+                        (adData?.status == StatusOption.Validated || adData?.status == StatusOption.Adopted) ?
+                          <MenuItem onClick={() => handleMarkAsReservedOrAdopted(adData?.id, StatusOption.Validated)}>Not Adopted</MenuItem>
+                          :
+                          (adData?.status == StatusOption.Validated || adData?.status == StatusOption.Reserved) ?
+                            <>  <MenuItem onClick={() => handleMarkAsReservedOrAdopted(adData?.id, StatusOption.Validated)}>Not Reserved</MenuItem>
+                              <MenuItem onClick={() => handleMarkAsReservedOrAdopted(adData?.id, StatusOption.Adopted)}>Adopted</MenuItem> </> :
+                            <></>
+
+                      }
                       <MenuItem>
                         <CustomLink to={"/advertise/update/" + adData.id}>Update</CustomLink>
                       </MenuItem>
+                      <MenuItem onClick={handleDelete}>Delete</MenuItem>
                     </Menu>
                   </>
                 )}
@@ -228,34 +265,42 @@ function AdCard({ adData, user, mode,
           <Typography variant="body1" color="text.secondary" noWrap>
             {adData.description}
           </Typography>
-          {(currentUser?.user?.id === adData.user_id ) && (
-              <Typography
-                color="textSecondary"
-                noWrap
-                variant="body2"
-                gutterBottom
-                style={{
-                  color:
-                    adData.status == "0"
-                      ? "orange"
-                      : adData.status == "1"
-                        ? "red"
-                        : adData.status == "2"
-                          ? "green"
-                          : "inherit",
-                }}
-              >
-                Status:  {statusToString(adData.status)}
-              </Typography>
-            )}
-       
+          {(currentUser?.user?.id === adData.user_id || adData.status != "0" && adData.status != "1" && adData.status != "2") && (
+            <Typography
+              color="textSecondary"
+              noWrap
+              variant="body2"
+              gutterBottom
+              style={{
+                width: '100%',
+                color: themes[mode].topbar.color,
+                textAlign: 'center',
+                margin: 'auto',
+                backgroundColor:
+                  adData.status == "0"
+                    ? "orange"
+                    : adData.status == "1"
+                      ? "red"
+                      : adData.status == "2"
+                        ? "green"
+                        : adData.status == "3"
+                          ? "midnightblue"
+                          : adData.status == "4"
+                            ? "goldenrod"
+                            : "inherit",
+              }}
+            >
+              Status:  {statusToString(adData.status)}
+            </Typography>
+          )}
+
         </CardContent>
         <CardActions disableSpacing>
           <Grid container justifyContent="space-between">
             <Grid item xs={3} sm={3} md={3} lg={3}>
               <IconButton
                 aria-label="add to favorites"
-                onClick={() => setfavorit(adData.id)}
+                onClick={() => setfavoritHandle(adData.id)}
               >
                 {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteIcon />}
               </IconButton>

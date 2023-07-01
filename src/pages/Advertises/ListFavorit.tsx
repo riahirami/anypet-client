@@ -26,29 +26,25 @@ const ListFavorit: React.FC<Props> = ({
 
   if (listFavorites.count == 0)
     return (
-        <CustomGlobalGrid>
+      <CustomGlobalGrid>
 
         <Typography>No favorite advertises </Typography>
         <Button variant="text">
           <CustomLink to={PATHS.HOME}>See all</CustomLink>
         </Button>
-        </CustomGlobalGrid>
+      </CustomGlobalGrid>
     );
 
   return (
     <Grid>
-
       <Container>
-        { }
-
         <Grid container spacing={1}>
           <Grid container spacing={2}>
-            {
-              listFavorites?.data?.map((ad: any) => (
-                <Grid item key={ad.id} xs={12} sm={6} md={4} lg={3}>
-                  <AdCard key={ad.id} adData={ad?.ad} user={ad?.user} handleThemeChange={handleThemeChange} mode={mode} />
-                </Grid>
-              ))}
+            {listFavorites?.data?.map((ad: any) => (
+              <Grid item key={ad.id} xs={12} sm={6} md={4} lg={3}>
+                <AdCard key={ad.id} adData={ad?.ad} user={ad?.user} handleThemeChange={handleThemeChange} mode={mode} />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Container>

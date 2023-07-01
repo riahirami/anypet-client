@@ -21,20 +21,31 @@ export const themes = {
       textDecoration: "none",
 
     },
+    filter: {
+      backgroundColor: "#ffffff",
+      color: "white",
+      textDecoration: "none",
+
+    },
     sideBar: {
       backgroundColor: "#ffffff",
       color: "black",
       textDecoration: "none",
     },
     advertises: {
-      backgroundColor: "#ffffff",
+      backgroundColor: "#caf0f8",
       color: "black",
       textDecoration: "none",
     },
     AdsCard: {
       backgroundColor: "#ffffff",
-      color: "white",
+      color: "black",
 
+    },
+    vedette: {
+      backgroundColor: "#FFD919",
+      color: "white",
+      textDecoration: "none",
     },
     comment: {
       backgroundColor: "#ffffff",
@@ -84,13 +95,23 @@ export const themes = {
       color: "white",
       textDecoration: "none",
     },
+    filter: {
+      backgroundColor: "#393e46",
+      color: "white",
+      textDecoration: "none",
+    },
+    vedette: {
+      backgroundColor: "#2276a4",
+      color: "white",
+      textDecoration: "none",
+    },
     advertises: {
       backgroundColor: "#2C3333",
       color: "white",
       textDecoration: "none",
     },
     AdsCard: {
-      backgroundColor: "#185A61",
+      backgroundColor: "#185171",
       color: "#ffffff",
 
     },

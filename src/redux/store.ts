@@ -7,6 +7,7 @@ import { adsApi } from './api/adsApi';
 import authReducer from "../redux/slices/authSlice" ; 
 import adReducer from "../redux/slices/adsSlice" ; 
 import favoriteReducer from "../redux/slices/favoriteSlice" ; 
+import notificationsReducer from "../redux/slices/notificationsSlice" ; 
 import { commentApi } from './api/commentsApi';
 import { userApi } from './api/userApi';
 import { reservationApi } from './api/reservationApi';
@@ -20,6 +21,8 @@ export const store = configureStore({
         auth:authReducer,
         ad:adReducer,
         favorite:favoriteReducer,
+        notification:notificationsReducer,
+
         [categoryApi.reducerPath]: categoryApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [adsApi.reducerPath]: adsApi.reducer,

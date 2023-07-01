@@ -105,6 +105,22 @@ export const userApi = createApi({
       }),
       providesTags: ['User'],
     }),
+    markOneAsReadNotifications: builder.mutation<any, number |string |undefined>({
+      query: (id) => {
+        return {
+          url: endpoints.MARKONEASREADNOTIFICATIONS + id,
+          method: "post",
+        };
+      },
+      invalidatesTags: ["User"],
+    }),
+    getUnreadMessages: builder.query<any, number>({
+      query: (id ) => ({
+        url: endpoints.UNREADMESSAGES +id,
+        method: 'get',
+      }),
+      providesTags: ['User'],
+    }),
   }),
 });
 
@@ -120,5 +136,7 @@ export const {
   useSendMessageMutation,
   useGetConversationQuery,
   useGetListConversationsQuery,
-  useContactAdminMutation
+  useContactAdminMutation,
+  useGetUnreadMessagesQuery,
+  useMarkOneAsReadNotificationsMutation
 } = userApi;

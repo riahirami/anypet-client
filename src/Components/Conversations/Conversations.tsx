@@ -1,18 +1,22 @@
 import { Grid, Typography, Avatar, Box } from "@mui/material";
 import { formaDateTime } from "core/services/helpers";
-import React, { useState } from "react";
-import { useGetListConversationsQuery } from "redux/api/userApi";
+import React, { useEffect, useState } from "react";
+import { useGetListConversationsQuery, useGetUnreadMessagesQuery } from "redux/api/userApi";
 import { Message } from "core/models/Message.model";
 import { getCurrentUser } from "core/utils/functionHelpers";
 import CustomLink from "Components/CustomLink/CustomLink"
 import { CustomConversationBox, GridVerticalDivider } from "./Conversations.style"
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined'; import { Badge } from "Components/Badge/Badge"
+import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined'; 
+import { Badge } from "Components/Badge/Badge"
 
 const Conversations = () => {
   const { data, isLoading } = useGetListConversationsQuery();
   const currentUser = getCurrentUser();
+  const { data:unreadMessages } = useGetUnreadMessagesQuery(currentUser?.user?.id);
+
   const [messageNumber, setMessageNumber] = useState(0);
+
 
   const [messageAnchorEl, setMessageAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -25,8 +29,11 @@ const Conversations = () => {
 
   const handleMessageClose = async () => {
     setMessageAnchorEl(null);
-    setMessageNumber(0);
   };
+
+  useEffect(()=>(
+    setMessageNumber(unreadMessages?.data?.length)
+  ),[unreadMessages])
 
   return (
     <>

@@ -15,7 +15,24 @@ const initialState: Favorites = {
 export const favoriteSlice = createSlice({
     name: "favorite",
     initialState,
-    reducers:{},
+    reducers: {
+      setFavorite: (state, action: PayloadAction<Ad>) => {
+        const ad = action.payload;
+        const adId = ad?.id?.toString();
+        const adIndex = state.favoriteList.findIndex(
+          (favorite: Ad) => favorite.id === adId
+        );
+  
+        if (adIndex !== -1) {
+          state.favoriteList = state.favoriteList.filter(
+            (favorite: Ad) => favorite.id !== adId
+          );
+        } else {
+          state.favoriteList = [ad, ...state.favoriteList];
+        }
+        
+      },
+    },
     // reducers: {
     //     setFavoriteList: (state, action) => {
     //         state.favoriteList = action.payload;
@@ -46,31 +63,39 @@ export const favoriteSlice = createSlice({
           state.favoriteList = action.payload;
         }
       );
-      builder.addMatcher(
-        adsApi.endpoints.setFavorite.matchFulfilled,
-        (state, action) => {
-          const adId = action.meta.arg;
-          const adIndex = state.favoriteList.findIndex(
-            (favorite: Ad) => favorite.id === adId.toString()
-          );
-  
-          if (adIndex !== -1) {
-            state.favoriteList.splice(adIndex, 1);
-          } else {
-            const adToAdd = state.favoriteList.find(
-              (ad: Ad) => ad.id === adId.toString()
-            );
-  
-            if (adToAdd) {
-              state.favoriteList.unshift(adToAdd);
-            }
-          }
-        }
-      );
     },
+    // extraReducers: (builder) => {
+    //   builder.addMatcher(
+    //     adsApi.endpoints.listFavorite.matchFulfilled,
+    //     (state, action) => {
+    //       state.favoriteList = action.payload;
+    //     }
+    //   );
+    //   builder.addMatcher(
+    //     adsApi.endpoints.setFavorite.matchFulfilled,
+    //     (state, action) => {
+    //       const adId = action.meta.arg;
+    //       const adIndex = state.favoriteList.findIndex(
+    //         (favorite: Ad) => favorite.id === adId.toString()
+    //       );
+  
+    //       if (adIndex !== -1) {
+    //         state.favoriteList.splice(adIndex, 1);
+    //       } else {
+    //         const adToAdd = state.favoriteList.find(
+    //           (ad: Ad) => ad.id === adId.toString()
+    //         );
+  
+    //         if (adToAdd) {
+    //           state.favoriteList.unshift(adToAdd);
+    //         }
+    //       }
+    //     }
+    //   );
+    // },
     
     
 });
 export const selectFavorite = (state: RootState) => state.favorite;
-//export const { setFavoriteList, toggleFavorite } = favoriteSlice.actions;
+export const { setFavorite} = favoriteSlice.actions;
 export default favoriteSlice.reducer

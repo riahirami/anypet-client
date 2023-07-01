@@ -4,5 +4,7 @@ import { styled } from '@mui/system';
 
    
 export const StyledTextFieldList = styled(TextField)({
-  width:'100px'
+  width:'100px',
+  backgroundColor:"white",
+  border:"2px solid white",
  });

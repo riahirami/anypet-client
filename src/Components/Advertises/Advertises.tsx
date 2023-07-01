@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   useDeleteAdMutation,
   useGetAdsQuery,
-  useGetMediaByIdQuery,
-  useListFavoriteQuery,
 } from "../../redux/api/adsApi";
 import { Ad, AdData } from "../../core/models/ad.model";
 import {
@@ -11,7 +9,7 @@ import {
   Grid,
   IconButton,
   Typography,
-  Box,
+  Box, Divider,
   InputBase,
   Container, Skeleton, MenuItem, TextField
 } from "@mui/material";
@@ -36,12 +34,13 @@ import { Props } from "Components/AppBar/Appbar.props";
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from 'redux/store';
 import { getAds } from 'redux/slices/adsSlice';
-import { CustomGlobalGrid } from "./Advertises.style";
+import { CustomAdsGrid, CustomFilterGrid, CustomGlobalGrid, CustomSearchBox } from "./Advertises.style";
 import CardSkeleton from "Components/Skeleton/CardSkeleton";
 import { themes } from "Theme/Themes";
 import { StateTunisia } from "core/constant/StateTunisia";
 import SelectState from "Components/SelectState/SelectState";
 import SelectCategory from "Components/SelectCategory/SelectCategory";
+import AdVedette from "./AdVedette/AdVedette";
 
 export const Advertises: React.FC<Props> = ({
   mode,
@@ -54,12 +53,12 @@ export const Advertises: React.FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [parameters, setParameters] = useState<parametersListing>({
     page: 1,
-    perPage: "8",
+    perPage: "10",
     orderBy: undefined,
     orderDirection: undefined,
     keyword: undefined,
     date: undefined,
-    status: "2",
+    status: ["4","3","2"],
     state: undefined,
     category: undefined,
   });
@@ -110,13 +109,13 @@ export const Advertises: React.FC<Props> = ({
       [param]: value,
     }));
   };
+
   return (
 
-    <CustomGlobalGrid style={{ backgroundColor: themes[mode].advertises.backgroundColor, padding: "20px" }} >
-
-      <Grid container justifyContent="space-between" alignItems="center" sx={{ mb: 10 }}>
+    <CustomGlobalGrid style={{ backgroundColor: themes[mode].advertises.backgroundColor }} >
+      <CustomFilterGrid style={{ backgroundColor: themes[mode].filter.backgroundColor }} container justifyContent="space-between" alignItems="center" >
         <Grid item xs={4} sm={4} md={4} lg={3}>
-          <Box display="flex" borderRadius="3px" style={{ border: "1px solid grey", marginLeft: '15px' }}>
+          <CustomSearchBox display="flex" >
             <InputBase
               sx={{ ml: 2, flex: 1 }}
               placeholder="Search"
@@ -128,7 +127,7 @@ export const Advertises: React.FC<Props> = ({
             <IconButton type="button" sx={{ p: 1 }}>
               <SearchIcon />
             </IconButton>
-          </Box>
+          </CustomSearchBox>
         </Grid>
 
         {/* 
@@ -179,27 +178,28 @@ export const Advertises: React.FC<Props> = ({
             onChange={(value) => handleFiltreChange("orderDirection", value)}
           />
         </Grid>
-      </Grid>
+      </CustomFilterGrid>
 
-
-      <Grid>
+      <CustomAdsGrid >
         {isLoading && <Spinner />}
 
-        <Container>
+        <Container >
           { }
           <Grid container spacing={1}>
             <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={6} lg={6}>
+                <AdVedette adData={data?.data?.[0]} mode={mode} handleThemeChange={handleThemeChange} />
 
-              {data?.data.map((ad: Ad) => (
+              </Grid>
+              {data?.data.slice(1).map((ad: Ad) => (
                 <Grid item key={ad.id} xs={6} sm={6} md={4} lg={3}>
-                  {isFetching ? <CardSkeleton />
-                    : <AdCard adData={ad} mode={mode} handleThemeChange={handleThemeChange} />}
+                  {isFetching ? <CardSkeleton /> : <AdCard adData={ad} mode={mode} handleThemeChange={handleThemeChange} />}
                 </Grid>
               ))}
             </Grid>
           </Grid>
         </Container>
-      </Grid>
+      </CustomAdsGrid>
 
       <Grid container alignItems="center" justifyContent={"space-around"} style={{ margin: "10px" }}>
         <Grid item >

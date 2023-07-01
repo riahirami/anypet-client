@@ -8,22 +8,13 @@ import Slider from "react-slick";
 import { settings } from './SliderHeaderCaroussel.settings';
 import { RootState } from 'redux/store';
 import { useSelector } from 'react-redux';
+import { imgList } from 'core/constant/imgCaroussel';
 
 const HeaderCaroussel = () => {
 
     const ads = useSelector((state: RootState) => state.ad.ad);
 
-    const imgList = {
-        data: {
-            media: [
-                { file_path: "adoptions.jpg" },
-                { file_path: "maxresdefault.jpg" },
-                { file_path: "PetAdoptionTips850.jpg" },
-                { file_path: "s9374nb1uljetw02.png" },
-            ]
-        }
-
-    }
+   
 
     return (
         <>
@@ -36,7 +27,7 @@ const HeaderCaroussel = () => {
                         imgList?.data?.media?.map((ad: any) => (
                             
 
-                                <CardMedia component="img" height={600} alt={ad?.file_path} key={ad?.file_path} image={process.env.PUBLIC_URL + "/article/" + ad?.file_path} />
+                                <CardMedia   component="img" height={550} alt={ad?.file_path} key={ad?.file_path} image={process.env.PUBLIC_URL + "/article/" + ad?.file_path} />
                         ))}
 
                 </Slider>

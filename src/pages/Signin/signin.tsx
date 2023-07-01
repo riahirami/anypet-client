@@ -128,7 +128,7 @@ const Signin = () => {
   return (
     <ThemeProvider theme={theme}>
 
-      {showAlert && <AlertComponent title={message.ERRORLOGIN} severity={"error"} />}
+      {isLoginError && <AlertComponent title={message.ERRORLOGIN} severity={"error"} />}
 
       <Container component="main" maxWidth="xs">
         <Grid container >

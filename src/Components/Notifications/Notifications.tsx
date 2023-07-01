@@ -12,21 +12,33 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import CustomLink from "Components/CustomLink/CustomLink";
 import { Badge } from "Components/Badge/Badge";
+import { useSelector, useDispatch } from 'react-redux';
+import { updateNotifications } from "redux/slices/notificationsSlice";
+import { RootState } from "redux/store";
 
 const Notifications = () => {
-  const [markAllAsRead] = useMarkAllAsReadNotificationsMutation();
   const currentUser = getCurrentUser();
+  const [markAllAsRead] = useMarkAllAsReadNotificationsMutation();
 
-  const { data: unreadNotifications } = useListUnreadNotificationsQuery(
+  const { data: unreadNotifications, isSuccess } = useListUnreadNotificationsQuery(
     currentUser?.user?.id
   );
-  const [notifNumber, setNotifNumber] = useState(
-    unreadNotifications?.data?.length
+  
+
+  const notificationsList = useSelector((state:RootState) => state.notification.notificationsList);
+  const dispatch = useDispatch();
+
+  const handleUpdateNotifications = (notifications:any) => {
+    dispatch(updateNotifications(unreadNotifications));
+  };
+
+ const [notifNumber, setNotifNumber] = useState(
+    notificationsList.length
   );
 
   useEffect(()=>(
     setNotifNumber(unreadNotifications?.data?.length)
-  ),[unreadNotifications])
+  ),[isSuccess])
 
 
   const [notificationAnchorEl, setNotificationAnchorEl] =
@@ -43,6 +55,7 @@ const Notifications = () => {
     setNotifNumber(0);
   };
 
+
   return (
     <div>
       <IconButton
@@ -54,7 +67,7 @@ const Notifications = () => {
       >
         <NotificationsOutlinedIcon />
         <Badge>
-          {notifNumber ? notifNumber : "0"}
+          {notificationsList.length ? notificationsList.length : "0"}
         </Badge>
       </IconButton>
       <Menu
@@ -69,9 +82,9 @@ const Notifications = () => {
         {notifNumber > 0 ? (
           unreadNotifications?.data?.map((notification: any) => (
             <MenuItem key={notification.id}>
-              {getNotificationMessage(notification)}
+              { getNotificationMessage(notification)}
               <Grid item>
-                {notification?.data?.url ? (
+                {( notification?.data?.url) ? (
                   <IconButton>
                     <CustomLink to={notification?.data?.url}>
                       <VisibilityOutlinedIcon color="info" />
