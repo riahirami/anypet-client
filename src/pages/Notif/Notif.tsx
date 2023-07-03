@@ -79,7 +79,6 @@ export const Notif = () => {
                 if (!allNotifications.some((notif) => notif.id == data.id)) {
                   setAllNotifications((prevNotifs) => [...prevNotifs, data]);
                   setShowAlert(true);
-                //   setAlertMessage("You have a new notification ");
                   setAlertMessage(getNotificationMessage(data));
                 }
               } else {
@@ -113,6 +112,7 @@ export const Notif = () => {
                 <AlertComponent
                     title={alertMessage}
                     severity="info"
+                    variant="standard"
                     onClose={() => setShowAlert(false)}
                 />
             )}
@@ -143,7 +143,7 @@ export const Notif = () => {
                             <Grid item>
                                 {(notification?.data) ? (
                                     <IconButton>
-                                        <CustomLink to={notification?.data?.ad_id}>
+                                        <CustomLink to={notification?.data?.url}>
                                             <VisibilityOutlinedIcon color="info" />
                                         </CustomLink>
                                     </IconButton>

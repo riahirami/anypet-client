@@ -26,7 +26,7 @@ const ListFavorit: React.FC<Props> = ({
 
   if (listFavorites.count == 0)
     return (
-      <CustomGlobalGrid>
+      <CustomGlobalGrid sx={{mt:10}}>
 
         <Typography>No favorite advertises </Typography>
         <Button variant="text">
@@ -36,7 +36,7 @@ const ListFavorit: React.FC<Props> = ({
     );
 
   return (
-    <Grid>
+    <Grid >
       <Container>
         <Grid container spacing={1}>
           <Grid container spacing={2}>

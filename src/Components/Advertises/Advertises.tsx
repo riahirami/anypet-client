@@ -53,7 +53,7 @@ export const Advertises: React.FC<Props> = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [parameters, setParameters] = useState<parametersListing>({
     page: 1,
-    perPage: "10",
+    perPage: "11",
     orderBy: undefined,
     orderDirection: undefined,
     keyword: undefined,

@@ -17,9 +17,9 @@ const PerPageSelect = ({ value, onChange }: PerPageSelectProps) => {
       onChange={handleChange}
     >
       <MenuItem >Select an option</MenuItem>
-      <MenuItem value="4">4</MenuItem>
-      <MenuItem value="8">8</MenuItem>
-      <MenuItem value="12">12</MenuItem>
+      <MenuItem value="7">6</MenuItem>
+      <MenuItem value="11">10</MenuItem>
+      <MenuItem value="15">14</MenuItem>
     </StyledTextFieldList>
   );
 };

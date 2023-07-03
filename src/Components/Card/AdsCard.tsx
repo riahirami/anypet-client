@@ -125,7 +125,7 @@ function AdCard({ adData, user, mode,
   }, [successFavoris]);
 
   const checkIsFavorit = async (id: any) => {
-    if (dataFavorite) {
+    if (dataFavorite && successFavorite) {
       const isFavorite = dataFavorite?.data?.find((fav: any) => fav.ad_id === id);
       isFavorite ? setIsFavorite(true) : setIsFavorite(false);
     }
@@ -137,7 +137,7 @@ function AdCard({ adData, user, mode,
   };
 
   useEffect(() => {
-    if (adData)
+    if (adData && successFavorite)
       checkIsFavorit(adData.id);
 
   }, [setFavoritMutation, dataFavorite, successFavorite]);

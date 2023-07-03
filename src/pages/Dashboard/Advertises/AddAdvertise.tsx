@@ -31,6 +31,7 @@ import { StateTunisia } from "core/constant/StateTunisia";
 
 import { Props } from 'Components/AppBar/Appbar.props';
 import { themes } from 'Theme/Themes';
+import { getCurrentUser } from "core/utils/functionHelpers";
 
 
 const advertiseSchema = Yup.object().shape({
@@ -59,6 +60,8 @@ const advertiseSchema = Yup.object().shape({
 });
 const AddAdvertise: React.FC<Props> = ({ mode,
   handleThemeChange }) => {
+    const currentUser = getCurrentUser();
+    const userID = currentUser?.user?.id;
   const [showModal, setShowModal] = useState(false);
   const [mediaValue, setMediaValue] = useState<File | null>(null);
   const item: Ad = {
@@ -122,7 +125,7 @@ const AddAdvertise: React.FC<Props> = ({ mode,
         return new Promise(resolve => setTimeout(resolve, 2000));
       })
       .then(() => {
-        navigate("/Advertise");
+        navigate("/myadvertises/"+userID);
       });
   };
 
