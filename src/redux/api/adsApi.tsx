@@ -106,8 +106,8 @@ export const adsApi = createApi({
         }
 
         return {
-          url: `${endpoints.Ads}${id}`,
-          method: "PUT",
+          url: `${endpoints.UPDATEAds}${id}`,
+          method: "post",
           body: formData,
         };
       },

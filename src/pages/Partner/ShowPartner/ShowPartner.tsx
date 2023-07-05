@@ -32,7 +32,7 @@ const ShowPartner = () => {
 
     return (
 
-        <StyledGlobalGrid  style={{ width: "100vw" }}>
+        <StyledGlobalGrid >
         
             {/* <StyledGridMedia> */}
             <Slider {...settings}>

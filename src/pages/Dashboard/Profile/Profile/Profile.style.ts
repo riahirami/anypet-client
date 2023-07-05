@@ -24,5 +24,5 @@ export const CustomGridCover = styled(Grid)(({ theme }) => ({
 }))
 
 export const CustomGridProfileInformations = styled(Grid)(({ theme }) => ({
-    padding: '40px', display: 'flex', justifyContent: 'space-evenly'
+    padding: '40px',width:"70vw", display: 'flex', justifyContent: 'space-evenly',alignItems: "center"
 }))

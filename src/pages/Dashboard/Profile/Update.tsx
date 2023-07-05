@@ -46,6 +46,8 @@ const Update = () => {
     },
   ] = useUpdateAvatarMutation();
 
+  
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -165,6 +167,8 @@ const Update = () => {
             </Grid>
           </TabPanel>
         </TabContext>
+      
+      
       </Box>
     </div>
   );

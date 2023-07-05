@@ -12,10 +12,12 @@ export const CustomGlobalGrid = styled(Grid)({
  });
 
 export const CustomGridAvatarName = styled(Grid)(({ theme }) => ({
-    display: "flex", alignItems: "center", marginBottom: "10px", marginLeft: "10px" 
+    display: "flex",flexDirection:'column',flexWrap:'wrap', alignItems: "center", marginBottom: "10px", marginLeft: "10px" 
 }))
 export const CustomTypography = styled(Typography)(({ theme }) => ({
     marginRight: "8px"
 }))
 export const CustomBox = styled(Box)(({ theme }) => ({
-    display: "flex", alignItems: "center"}))
+    display: "flex", alignItems: "center",justifyContent:'center'}))
+export const CustomBoxDetails = styled(Box)(({ theme }) => ({
+    display: "flex", alignItems: "center",}))

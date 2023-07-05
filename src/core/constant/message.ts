@@ -18,6 +18,7 @@ export const message= {
     CATEGORYFETCHEDFAILED: "The category has been fetched failed",
 
     AVATARCHANGED: "Your avatar has been changed successfully",
+    INFORMATIONCHANGED: "Your profile information has been changed successfully",
 
 
     RESERVATIONSEND: "Your reservation has been send successfully",

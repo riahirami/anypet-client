@@ -2,6 +2,7 @@ export const endpoints = {
     
     loginUserUrl : "api/login",
     registreUserUrl: "api/register",
+    UpdateUserUrl: "api/update",
     logoutUserUrl: "api/auth/logout",
     profileUrl: "api/profile",
     UPDATEAVATAR: "api/avatar",
@@ -15,6 +16,7 @@ export const endpoints = {
 
     AdsGlobal:"ads",
     Ads:"ads/",
+    UPDATEAds:"ads/updateads/",
     MARKAS:"ads/mark-as",
     MYADS:"ads/myads/",
     ADMEDIA:"ads/media/",

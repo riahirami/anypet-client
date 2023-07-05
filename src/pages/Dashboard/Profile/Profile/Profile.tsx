@@ -9,7 +9,7 @@ import {
 import {
   useProfileQuery,
   useResendEmailVerificationMutation,
-
+  useUpdateUserMutation
 } from "../../../../redux/api/authApi";
 import { Alert, AlertTitle, Avatar, Container } from "@mui/material";
 import Spinner from "../../../../Components/Spinner/spinner";
@@ -19,12 +19,33 @@ import CustomModal from "../../../../Components/Modal/CustomModal";
 import {
   Button,
   Grid,
-  Typography, Divider
+  Typography, Divider, Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField, IconButton
 } from "@mui/material";
 import { getToken } from "core/utils/functionHelpers";
-
-import {CustomContainerProfile,CustomGlobalGrid, CustomGridCover,CustomGridProfileInformations} from "./Profile.style"
+import { CustomContainerProfile, CustomGlobalGrid, CustomGridCover, CustomGridProfileInformations } from "./Profile.style"
 import { resendEmailVerificationMsg } from "core/constant/resendEmailVerification";
+import AlertComponent from "Components/Alert/Alert";
+import { message } from "core/constant/message";
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+
+interface FormValues {
+  firstname: string;
+  lastname: string;
+  phone: string;
+  address?: string;
+}
+
+const initialFormValues: FormValues = {
+  firstname: '',
+  lastname: '',
+  phone: '',
+  address: '',
+};
 
 function Profile() {
   const { token } = useAppSelector(selectAuth);
@@ -33,6 +54,8 @@ function Profile() {
   const tokenValue = getToken();
   const [showModal, setShowModal] = useState(false);
   const [descriptionModal, setDescriptionModal] = useState("");
+  const [open, setOpen] = useState(false);
+  const [formValues, setFormValues] = useState<FormValues>(initialFormValues);
 
   const {
     data: dataProfile,
@@ -40,7 +63,15 @@ function Profile() {
     isSuccess,
     isLoading,
   } = useProfileQuery(tokenValue.token);
-
+  const [
+    updateInformation,
+    {
+      data: informationData,
+      isSuccess: informationSuccess,
+      isError: informationError,
+      isLoading: informationLoading,
+    },
+  ] = useUpdateUserMutation();
 
   const [
     resendEmail,
@@ -72,6 +103,28 @@ function Profile() {
       setShowModal(true);
     }
   }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChangeField = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [id]: value,
+    }));
+  };
+  const handleSubmitUpdateInformation = async () => {
+    await updateInformation(formValues)
+    handleClose();
+
+
+  };
 
   if (isLoading) return <Spinner />;
   if (isError)
@@ -116,16 +169,92 @@ function Profile() {
     );
 
   if (isSuccess && dataProfile?.user)
+
+
     return (
       <>
+        {informationSuccess && (
+          <AlertComponent
+            title={message.INFORMATIONCHANGED}
+            severity="success"
+            variant="filled"
+          />
+        )}
+        <Dialog
+          open={open}
+          keepMounted
+          onClose={handleClose}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{"Update your information"}</DialogTitle>
+          <DialogContent >
+            <TextField
+              autoFocus
+              margin="dense"
+              id="firstname"
+              label="firstname"
+              type="text"
+              fullWidth
+              value={formValues.firstname}
+              variant="standard"
+              placeholder={firstname}
+              onChange={handleChangeField}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="lastname"
+              label="lastname"
+              type="text"
+              fullWidth
+              variant="standard"
+              value={formValues.lastname}
+              placeholder={lastname}
+              onChange={handleChangeField}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="phone"
+              label="phone"
+              type="text"
+              fullWidth
+              value={formValues.phone}
+              variant="standard"
+              placeholder={phone}
+              onChange={handleChangeField}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="address"
+              label="address"
+              type="text"
+              fullWidth
+              variant="standard"
+              multiline
+              value={formValues.address}
+              minRows={2}
+              onChange={handleChangeField}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleSubmitUpdateInformation} disabled={informationLoading}>Valide</Button>
+          </DialogActions>
+        </Dialog>
+
         <CustomGlobalGrid>
           <CustomContainerProfile>
             <CustomGridCover item>
-              <Avatar sx={{ width: 120, height: 120 }} alt="avatar" src={avatar} />
+              <Avatar sx={{ width: 120, height: 120 }} alt={firstname} src={avatar} />
+
             </CustomGridCover>
+
             <Divider>
-              <Typography variant="h5" style={{ padding: '15px' }}>Welcome {firstname}</Typography>
+              <Typography variant="h5" style={{ padding: '15px' }}>Welcome {firstname} </Typography>
+
             </Divider>
+
             <CustomGridProfileInformations container >
               <Grid item>
                 <Typography>First name: {firstname}</Typography>
@@ -139,8 +268,13 @@ function Profile() {
               <Grid item>
                 <Typography>Phone: {phone}</Typography>
               </Grid>
+              <Grid item>
+                <IconButton color="info" onClick={() => handleClickOpen()}>
+                  <BorderColorOutlinedIcon />
+                </IconButton>
+              </Grid>
             </CustomGridProfileInformations>
-            <Divider/>
+            <Divider />
           </CustomContainerProfile>
         </CustomGlobalGrid>
 

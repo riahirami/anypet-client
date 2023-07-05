@@ -243,6 +243,7 @@ function AdCard({ adData, user, mode,
                     objectFit: "contain",
                     display: "flex",
                     justifyContent: "space-around",
+                    
                   }}
                   component="img"
                   height="200"

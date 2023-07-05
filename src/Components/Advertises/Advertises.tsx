@@ -62,7 +62,7 @@ export const Advertises: React.FC<Props> = ({
     state: undefined,
     category: undefined,
   });
-  const { data, error, isLoading, isSuccess, refetch, isFetching } =
+  const { data, error, isLoading, isSuccess, refetch, isFetching, status  } =
     useGetAdsQuery(parameters);
 
   const ads = useSelector((state: RootState) => state.ad);
@@ -111,8 +111,8 @@ export const Advertises: React.FC<Props> = ({
   };
 
   return (
-
     <CustomGlobalGrid style={{ backgroundColor: themes[mode].advertises.backgroundColor }} >
+      {status =="rejected" && <AlertComponent  title={ `Action `+status+` ! your session has been expired`} severity="error" variant="filled"/>}
       <CustomFilterGrid style={{ backgroundColor: themes[mode].filter.backgroundColor }} container justifyContent="space-between" alignItems="center" >
         <Grid item xs={4} sm={4} md={4} lg={3}>
           <CustomSearchBox display="flex" >

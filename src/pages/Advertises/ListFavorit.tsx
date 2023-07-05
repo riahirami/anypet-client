@@ -36,9 +36,9 @@ const ListFavorit: React.FC<Props> = ({
     );
 
   return (
-    <Grid >
-      <Container>
-        <Grid container spacing={1}>
+    <Grid sx={{mt:10}}>
+      <Container >
+        <Grid container spacing={1} sx={{mt:5}}>
           <Grid container spacing={2}>
             {listFavorites?.data?.map((ad: any) => (
               <Grid item key={ad.id} xs={12} sm={6} md={4} lg={3}>

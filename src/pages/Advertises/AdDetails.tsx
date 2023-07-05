@@ -261,12 +261,16 @@ const AdDetails: React.FC<Props> = ({ mode,
               adData?.media?.map((media: any) => {
                 return (
                   <Grid item key={media.id} xs={12} sm={12} md={12} lg={12}>
-                    <CardMedia style={{
-                      objectFit: "contain"
+                    <CardMedia sx={{'&:hover': {
+                        scale:'1.8',
+                      }}}
+                      style={{
+                      objectFit: "contain",
+                      
                     }}
                       component="img"
-                      // width="200"
-                      height="400"
+                      width="100vh"
+                      height="450"
                       image={media.file_path}
                       key={media.id}
                     />

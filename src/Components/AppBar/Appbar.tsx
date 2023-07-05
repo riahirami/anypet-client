@@ -178,11 +178,8 @@ export const ResponsiveAppBar: React.FC<Props> = ({
                   </ListItemText>
                 </ListItem>
                 <ListItem
-                  onClick={handleCloseDrawer}
                 >
                   <ListItemText>
-                    {/* <Notifications /> */}
-
                     <Notif />
                   </ListItemText>
                 </ListItem>

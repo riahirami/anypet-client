@@ -31,7 +31,8 @@ export const StyledGlobalGrid = styled(Grid)({
     paddingTop: "100px",
 //  width: "100vw",
  minWidth:"670px",  
- margin:"auto"
+ margin:"auto",
+ width: "100vw"
 });
 
 export const StyledGridInfoItem = styled(Grid)({

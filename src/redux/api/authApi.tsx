@@ -26,7 +26,16 @@ export const authApi = createApi({
           body,
         };
       },
-      
+      invalidatesTags: ["User"],
+    }),
+    updateUser: builder.mutation({
+      query: (user: {firstname:string,lastname:string,phone:string,address?:string}) => {
+        return {
+          url: endpoints.UpdateUserUrl,
+          method: "post",
+          body:user,
+        };
+      },
       invalidatesTags: ["User"],
     }),
     logoutUser: builder.mutation({
@@ -104,5 +113,6 @@ export const {
   useResendEmailVerificationMutation,
   useEmailVerificationMutation,
   useResetPasswordMutation,
-  useUpdateAvatarMutation
+  useUpdateAvatarMutation,
+  useUpdateUserMutation
 } = authApi;

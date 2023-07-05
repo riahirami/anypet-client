@@ -22,6 +22,7 @@ import AlertComponent from "../../../Components/Alert/Alert";
 import {message} from "../../../core/constant/message";
 import { StateTunisia } from "core/constant/StateTunisia";
 import { Props } from "Components/AppBar/Appbar.props";
+import { getCurrentUser } from "core/utils/functionHelpers";
 
 const advertiseSchema = Yup.object().shape({
   title: Yup.string()
@@ -49,6 +50,8 @@ const advertiseSchema = Yup.object().shape({
 });
 const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
   const { id } = useParams();
+  const currentUser = getCurrentUser();
+  const userID = currentUser?.user?.id;
   const { data, isLoading, isSuccess,refetch } = useGetAdByIdQuery(id);
   const [showModal, setShowModal] = useState(false);
 
@@ -106,14 +109,14 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
         return new Promise((resolve) => setTimeout(resolve, 2000)); // wait for 2 seconds
       })
       .then(() => {
-        navigate("/Advertise");
+        navigate("/myadvertises/"+userID);
       });
   };
 
   return (
     <Grid sx={{mt:15}} style={{width:"80vw",position:"absolute"}}>
       {isLoading && <Spinner />}
-      <Alert severity="warning">If you update your advertise, it should be approuved by the adminsitrator !</Alert>
+      <Alert severity="warning">If you update your advertise, it should be approuved by the administrator !</Alert>
 
    {succesUpdate && (
         <AlertComponent title={message.ADVERRTISESEDITED} severity="success" />
