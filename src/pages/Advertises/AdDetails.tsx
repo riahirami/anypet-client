@@ -75,7 +75,6 @@ const AdDetails: React.FC<Props> = ({ mode,
 
   const user = getCurrentUser();
 
-  // const { data, refetch } = useListFavoriteQuery(user?.user?.id);
   const [makeReservation, { data: ReservationData, isSuccess: successReservation, isLoading: reservationLoading, isError }] = useCreateReservationsMutation();
 
   const [isFavorite, setIsFavorit] = useState<boolean>();

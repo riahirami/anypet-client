@@ -125,7 +125,7 @@ const Update = () => {
 
           <TabPanel value="2">
             {" "}
-          <Grid style={{    }}>
+          <Grid style={{ display:"flex"  }}>
           <TextField
               label="Avatar"
               color="primary"
@@ -144,7 +144,7 @@ const Update = () => {
           </TabPanel>
 
           <TabPanel value="3">
-          <Grid style={{   }}> 
+          <Grid style={{ display:"flex"  }}> 
            <TextField
               required
               id="email"
@@ -152,6 +152,7 @@ const Update = () => {
               name="email"
               autoComplete="email"
               onChange={handleChangeForm}
+              value={email}
               autoFocus
             />
             <Button

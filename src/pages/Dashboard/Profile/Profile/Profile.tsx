@@ -145,9 +145,7 @@ function Profile() {
         >
           resend email verification
         </Button>
-        <Button type="button" onClick={() => handleLogout()}>
-          logout
-        </Button>
+        
         {loadingResend && <Spinner />}
 
         {loadingResend ? (

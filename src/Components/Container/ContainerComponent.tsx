@@ -38,6 +38,8 @@ import { Playground } from "Layout/SideBar/SideBar";
 import { ProSidebarProvider } from "Components/SidebarSrc/ProSidebarProvider";
 import AddAdvertise from "pages/Dashboard/Advertises/AddAdvertise";
 import AdUpdate from "pages/Dashboard/Advertises/AdUpdate";
+import EmailVerify from "pages/Dashboard/Profile/emailVerify";
+import ResetPassword from "pages/Dashboard/Profile/Profile/resetPassword";
 
 
 export const ContainerComponent: React.FC<Props> = ({
@@ -104,6 +106,23 @@ export const ContainerComponent: React.FC<Props> = ({
                                         <Update />
                                     </Playground>
                                 </ProSidebarProvider>} />
+                                <Route
+                            path="/api/reset-password"
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                        <ResetPassword />
+                                    </Playground>
+                                </ProSidebarProvider>} />
+                        <Route
+                            path="/api/email/verify/:id/:hash"
+                            element={
+                                <ProSidebarProvider>
+                                    <Playground mode={mode} handleThemeChange={handleThemeChange} >
+                                   <EmailVerify />
+                                    </Playground>
+                                </ProSidebarProvider>} />
+
                         <Route
                             path={PATHS.AddAdvertise}
                             element={
