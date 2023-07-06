@@ -45,6 +45,9 @@ const advertiseSchema = Yup.object().shape({
   category_id: Yup.string().required(
     "Category is required ! please choose on of the list above"
   ),
+  media: Yup.array()
+  .required("Media is required")
+  .min(1, "Media is required"),
   state: Yup.string()
     .required("State is required")
     .min(1, "State must be at least 1 characters"),
@@ -177,6 +180,10 @@ const AddAdvertise: React.FC<Props> = ({ mode,
                 id="media"
                 color="primary"
                 type="file"
+                helperText={
+                  "you need to upload at least a media file"
+                }
+                error={formikProps.touched.media && !!formikProps.errors.media}
                 inputProps={{ multiple: true }}
                 onChange={handleChangeForm(formikProps)}
               />

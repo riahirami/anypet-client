@@ -231,7 +231,7 @@ function AdCard({ adData, user, mode,
           height: "300px", margin: "auto"
         }}>
           <Grid container alignItems={"center"}>
-            {adData && (
+            {adData?.media?.[0] && (
               <Grid
                 item
                 key={adData?.media?.[0].id}

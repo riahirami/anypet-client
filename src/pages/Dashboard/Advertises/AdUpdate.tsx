@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Grid, MenuItem, TextField,Alert } from "@mui/material";
+import { Grid, MenuItem, TextField, Alert } from "@mui/material";
 import CustomModal from "../../../Components/Modal/CustomModal";
 import Spinner from "../../../Components/Spinner/spinner";
 import { useGetAdByIdQuery, useUpdateAdMutation } from "../../../redux/api/adsApi";
@@ -19,7 +19,7 @@ import { useGetAllCategoriesQuery } from "../../../redux/api/categoryApi";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import AlertComponent from "../../../Components/Alert/Alert";
-import {message} from "../../../core/constant/message";
+import { message } from "../../../core/constant/message";
 import { StateTunisia } from "core/constant/StateTunisia";
 import { Props } from "Components/AppBar/Appbar.props";
 import { getCurrentUser } from "core/utils/functionHelpers";
@@ -35,6 +35,10 @@ const advertiseSchema = Yup.object().shape({
   category_id: Yup.string().required(
     "Category is required ! please chose on of the list above"
   ),
+  media: Yup.array()
+    .required("Media is required")
+    .min(1, "Media is required"),
+
   state: Yup.string()
     .required("State is required")
     .min(1, "State must be at least 1 characters"),
@@ -48,11 +52,11 @@ const advertiseSchema = Yup.object().shape({
     .required("Postal code is required")
     .min(4, "Postal code must be at least 4 characters"),
 });
-const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
+const AdUpdate: React.FC<Props> = ({ mode, handleThemeChange }) => {
   const { id } = useParams();
   const currentUser = getCurrentUser();
   const userID = currentUser?.user?.id;
-  const { data, isLoading, isSuccess,refetch } = useGetAdByIdQuery(id);
+  const { data, isLoading, isSuccess, refetch } = useGetAdByIdQuery(id);
   const [showModal, setShowModal] = useState(false);
 
   const item: Ad = {
@@ -63,13 +67,13 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
     street: "",
     postal_code: "",
     category_id: "",
-    created_at:"",
-    updated_at:"",
-    status:"",
+    created_at: "",
+    updated_at: "",
+    status: "",
     media: [],
-    user_id:"",
-    user:{
-      firstname:"", lastname:"", email:"", password:"",phone:"",address:""
+    user_id: "",
+    user: {
+      firstname: "", lastname: "", email: "", password: "", phone: "", address: ""
     }
 
   };
@@ -109,16 +113,16 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
         return new Promise((resolve) => setTimeout(resolve, 2000)); // wait for 2 seconds
       })
       .then(() => {
-        navigate("/myadvertises/"+userID);
+        navigate("/myadvertises/" + userID);
       });
   };
 
   return (
-    <Grid sx={{mt:15}} style={{width:"80vw",position:"absolute"}}>
+    <Grid sx={{ mt: 15 }} style={{ width: "80vw", position: "absolute" }}>
       {isLoading && <Spinner />}
       <Alert severity="warning">If you update your advertise, it should be approuved by the administrator !</Alert>
 
-   {succesUpdate && (
+      {succesUpdate && (
         <AlertComponent title={message.ADVERRTISESEDITED} severity="success" />
       )}
       {isLoading ? (
@@ -153,15 +157,19 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
                 error={formikProps.touched.title && !!formikProps.errors.title}
                 onChange={handleChangeForm(formikProps)}
               />
-               <TextField
-              label=""
-              name="media"
-              id="media"
-              color="primary"
-              type="file"
-              inputProps={{ multiple: true }}
-              onChange={handleChangeForm(formikProps)}
-            />
+              <TextField
+                label=""
+                name="media"
+                id="media"
+                color="primary"
+                type="file"
+                helperText={
+                  "you need to upload at least a media file"
+                }
+                error={formikProps.touched.media && !!formikProps.errors.media}
+                inputProps={{ multiple: true }}
+                onChange={handleChangeForm(formikProps)}
+              />
               <CustomTextField
                 select
                 name="category_id"
@@ -196,8 +204,8 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
                 }
                 onChange={handleChangeForm(formikProps)}
               />
-               <CustomTextField
-              select
+              <CustomTextField
+                select
                 id="state"
                 name="state"
                 label="state"
@@ -207,12 +215,12 @@ const AdUpdate:React.FC <Props> = ({mode, handleThemeChange}) => {
                 error={formikProps.touched.state && !!formikProps.errors.state}
                 onChange={handleChangeForm(formikProps)}
               >
-                {StateTunisia.map((item : any) => (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.name}
-                </MenuItem>
-              ))}
-            </CustomTextField>
+                {StateTunisia.map((item: any) => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </CustomTextField>
               <CityFormControl variant="filled">
                 <Field
                   id="city"

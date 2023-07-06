@@ -37,7 +37,7 @@ export const hexToRgba = (hex: string, alpha: number) => {
 
 export const getNotificationMessage = (notification: any): string => {
   if (notification.type === "App\\Notifications\\AdCommented") {
-    return "The ad " + notification?.data?.title + " has been commented";
+    return "The ad " + notification?.data?.ad_id + " has been commented";
   }
   if (notification.type === "App\\Notifications\\AdMatchingInterrestNotification") {
     return "An ad as one of the categories that you interest has been added ";
